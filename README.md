@@ -1,3 +1,3 @@
 # AndroidPayRollProject
-Android project for tracking individual payrolls
+Android starter project for tracking individual payrolls
  
