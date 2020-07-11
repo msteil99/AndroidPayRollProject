@@ -14,13 +14,8 @@ import java.util.Objects;
 
 
 public class SettingsFragment extends Fragment {
-   //I could think about moving all these to the main activity
-   // final String MyPrefs = "MyPrefs" ;
-    //final String hourlyRateKey = "hourlyRateKey"; //this key can be all capital?
-    //final String otRateKey = "otRateKey";
-    //final String sickPercentKey = "sickPercentKey";
-    //final String daysPerCycleKey = "daysPerCycleKey";
-    private PayRollTrack payRollTrack;
+
+
     OnSettingsChangedListener onSettingsChangedListener;
 
     public interface OnSettingsChangedListener {
