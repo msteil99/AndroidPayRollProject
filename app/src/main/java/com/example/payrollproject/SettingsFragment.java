@@ -59,6 +59,11 @@ public class SettingsFragment extends Fragment {
                 editor.putString(getString(R.string.sickPercentKey), etSickPercentage.getText().toString());
                 editor.putString(getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
                 editor.commit();
+
+                //iterate dates here
+
+
+
                 try {
                     onSettingsChangedListener = (OnSettingsChangedListener)getActivity();
                     onSettingsChangedListener.onSettingsChanged();
@@ -77,6 +82,14 @@ public class SettingsFragment extends Fragment {
      * Application is crashing if settings is not instantiate to a number prior to start
 
      * **/
+
+    // I need a frm and to date in the settings application. this will iterate and apply key value pairs
+    //(datekey,payperiodval)
+    //usePayPeriodVal now in the curDateFrag when I enter the daily value it finds the corresponding payperiodval and adds the date
+    //first is iterate and apply values
+
+
+
 
     //return the next pay date given the current date and cycle
     //var - payperiod length, payperiod startdate
@@ -98,6 +111,9 @@ public class SettingsFragment extends Fragment {
     //once the user hits enter in the setting application the program goes to work - basically it will take the start date and the amount of days
     //to iterate through applying all values it has so far, the user can change the values in the calendar object as needed and the application
     //will update
+
+
+
 
 
 }

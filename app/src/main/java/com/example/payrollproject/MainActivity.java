@@ -21,6 +21,8 @@ SettingsFragment.OnSettingsChangedListener {
     private FragmentManager fragMan; private FragmentTransaction fragTrans;
     private String dateKey;
     private int year,month,day;
+    private int payRollNum = 0;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,6 @@ SettingsFragment.OnSettingsChangedListener {
 
       CurrentDateFragment dateFragment = new CurrentDateFragment();
       Bundle args = new Bundle();
-      //parse date key month +1 assigning value 1 to January instead of 0
       String parseDate = dateKey;
       String delims = "/"; // so the delimiters are:  + - * / ^ space
       String[] tokens = parseDate.split(delims);
@@ -53,29 +54,16 @@ SettingsFragment.OnSettingsChangedListener {
       month = Integer.parseInt(tokens[1])+1; //plus one to set January value to 1
       day = Integer.parseInt(tokens[2]);
 
-
-      dateKey = year + "/" + month + "/" + day; // not sure why I have to do this
+      dateKey = year + "/" + month + "/" + day;
       this.dateKey = dateKey; // need this to compute value
 
-      //sharedPreferences =  getSharedPreferences("MyPref" ,Context.MODE_PRIVATE);
-      //sharedPreferences.getString("hourlyRateKey","0");
-
       args.putString("dateKey", dateKey);
-
-      /* this works
-      sharedPreferences =  getSharedPreferences("M y P r e f s" ,Context.MODE_PRIVATE);
-      args.putString("dateKey", sharedPreferences.getString("hourlyRateKey",""));
       dateFragment.setArguments(args);
-     */
 
-      dateFragment.setArguments(args);
+      //replace current fragment with dateFragment, adding transaction to backstack allows user to undo when pressing back
       fragTrans = getSupportFragmentManager().beginTransaction();
-      // Replace whatever is in the fragment_container view with this fragment,
-      // and add the transaction to the back stack so the user can navigate back
       fragTrans.replace(R.id.flFragment, dateFragment);
       fragTrans.addToBackStack(null);
-
-      // Commit the transaction
       fragTrans.commit();
     }
 
@@ -87,47 +75,41 @@ SettingsFragment.OnSettingsChangedListener {
       fragTrans.commit();
     }
 
-    //could switch all keys to an ENUM class for the settings function
+   //iterate through the date applying a value to the payperiod
+    //check if there is a current value for the payperiod
     public void onSettingsChanged(){
 
         //get the first pay date and dates to iterate through
          LocalDate dateStart = LocalDate.of(2020, 7, 1); //parse value from settings
+         LocalDate dateEnd = LocalDate.of(2020,12,28); // parse value from settings
+
+         String date = dateStart.getYear() + "/" + dateStart.getMonthValue() + "/" + dateStart.getDayOfMonth(); //returns 2020/07/01;
+
+         //if payroll value assigned to date start payroll at that value
+         sharedPreferences = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.payRollKey),Context.MODE_PRIVATE));
+         payRollNum = sharedPreferences.getInt(date,0);
+
           int daysPerCycle = 14; //get value from settings
-          int regHoursPDay = 7;
-          String date;
-          String regHoursKey;
-         //dateKey needs to be seperate or it will change for the
-         //this iteration applys reg hours from 1 to 14 day
-         while(dateStart.isBefore(LocalDate.now())) {
+
+        //this iteration assigns payroll num and changes and date value
+         while(dateStart.isBefore(dateEnd)) {
+          SharedPreferences.Editor editor = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.payRollKey), Context.MODE_PRIVATE).edit());
              for (int i = 0; i < daysPerCycle; i++) {
-                 //instantiate values with regHours from settings
-                date = dateStart.getYear() + "/" + dateStart.getMonthValue() + "/" + dateStart.getDayOfMonth(); //returns 2020/07/01
-                regHoursKey = date + "reg";
-                SharedPreferences.Editor editor = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefKey), Context.MODE_PRIVATE).edit());
-                editor.putString(regHoursKey, String.valueOf(regHoursPDay));
-                editor.apply();
+                 editor.putInt(date, payRollNum);
+                 //dateTotal
                 dateStart = dateStart.plusDays(1);
             }
-            //savePayPeriod(frm,to)
-             //claucate values from to and save
+             editor.apply();
+             payRollNum ++;
          }
 
         //save PayperiodValue()
         //getPayperiod(date)//returns the payperiod it belongs to
-
-
-       // dateStart = dateStart.plusDays(1)//iterate to next paydate
-
-        //basically I need to have a start date to iterate through 14 days marking the values of the 14 days with
-        //a value say the startDate which will be the key for the values, so basically all I Need to compute
-        //each iteration is the startDates, so for payperiod at startDate until currentDate
-        //if I loop unitl current date it should stop at the last payperiod then need to find a ways to add all the values form that
-        //one pay period - sta
     }
 
     public void onHoursChanged(){
 
-        SharedPreferences sharedPreferences = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefKey), Context.MODE_PRIVATE)); // still crashes
+        sharedPreferences = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefKey), Context.MODE_PRIVATE)); // still crashes
 
          String regRate = sharedPreferences.getString(getResources().getString(R.string.hourlyRateKey), "0"); //change to non null
          String otRate = sharedPreferences.getString(getResources().getString(R.string.otRateKey),"0");
@@ -144,13 +126,12 @@ SettingsFragment.OnSettingsChangedListener {
          String otHours = sharedPreferences.getString(dateKey+ "ot","0");
          String sickHours = sharedPreferences.getString(dateKey+ "sick","0");
 
+         payRollTrack.setRegWorked(Double.parseDouble(regHours));
+         payRollTrack.setOtWorked(Double.parseDouble(otHours));
+         payRollTrack.setSickWorked(Double.parseDouble(sickHours));
 
-        payRollTrack.setRegWorked(Double.parseDouble(regHours));
-        payRollTrack.setOtWorked(Double.parseDouble(otHours));
-        payRollTrack.setSickWorked(Double.parseDouble(sickHours));
-
-        //use shared preferences to save day total
-          payRollTrack.getDayTotal();
+         //use shared preferences to save day total
+         payRollTrack.getDayTotal();
 
         Toast.makeText(this, String.valueOf(payRollTrack.getDayTotal()) , Toast.LENGTH_LONG).show();
     }
@@ -169,18 +150,30 @@ SettingsFragment.OnSettingsChangedListener {
 
          if(dateEnd.isBefore(dateStart))
              //throw an error message
-
-
-            while(dateStart.isBefore(dateEnd)){
+             while(dateStart.isBefore(dateEnd)){
              for(int i = 0; i<daysPerCycle; i++){
-
-
-                dateStart = dateStart.plusDays(1);
+                 dateStart = dateStart.plusDays(1);
             }
             System.out.println("New Loop " + dateStart.toString());
-            //save vlaue (key, total4PayPeriod)
+                 /*
+                 while(dateStart.isBefore(dateEnd)) {
+                     for (int i = 0; i < daysPerCycle; i++) {
+                         //instantiate values with regHours from settings
+                         date = dateStart.getYear() + "/" + dateStart.getMonthValue() + "/" + dateStart.getDayOfMonth(); //returns 2020/07/01
+                         regHoursKey = date + "reg";
+                         SharedPreferences.Editor editor = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefKey), Context.MODE_PRIVATE).edit());
+                         editor.putString(regHoursKey, String.valueOf(regHoursPDay));
+                         editor.apply();
+                         dateStart = dateStart.plusDays(1);
+                     }
+             */
+
+
         }
      }
+
+
+
 
      //iterate each pay day from the startDate specified in settings to the end date specified, this way when the user changes
     // they can change their hourly amount and start date and any point they want.
