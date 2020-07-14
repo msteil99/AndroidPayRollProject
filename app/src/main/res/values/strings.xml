@@ -5,8 +5,10 @@
     <string name="sickPercentKey">sickPercentKey</string>
     <string name="daysPerCycleKey">daysPerCycleKey</string>
     <string name= "dateKey">dateKey</string>
-    <string name="prefKey">prefKey</string>
-    <string name="payRollKey">payRollKey</string>
+    <string name="prefSeti">prefSeti</string>
+    <string name="prefPayRoll">prefPayRoll</string>
+
+
 
 
 

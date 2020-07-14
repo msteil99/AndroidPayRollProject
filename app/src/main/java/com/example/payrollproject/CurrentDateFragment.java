@@ -22,7 +22,7 @@ public class CurrentDateFragment extends Fragment {
     OnHoursChangedListener mHoursChanged;
 
     public interface OnHoursChangedListener {
-        public void onHoursChanged();
+         void onHoursChanged(String dateKey);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CurrentDateFragment extends Fragment {
      final String sickHoursKey = curDate + "sick";
 
      //This will set the text if user has already placed a value, placeing the zero ensures a non null value
-     SharedPreferences pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefKey),Context.MODE_PRIVATE);
+     SharedPreferences pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPayRoll),Context.MODE_PRIVATE);
       etCurDateReg.setText(pref.getString(regHoursKey, "0"));
       etCurDateOt.setText(pref.getString(otHoursKey,"0"));
       etCurDateSick.setText(pref.getString(sickHoursKey,"0"));
@@ -61,7 +61,7 @@ public class CurrentDateFragment extends Fragment {
       btnAddHours.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
-         SharedPreferences.Editor editor = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefKey), Context.MODE_PRIVATE).edit();
+         SharedPreferences.Editor editor = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit();
          editor.putString(regHoursKey, etCurDateReg.getText().toString());
          editor.putString(otHoursKey,etCurDateOt.getText().toString());
          editor.putString(sickHoursKey,etCurDateSick.getText().toString());
@@ -69,7 +69,7 @@ public class CurrentDateFragment extends Fragment {
 
              try {
                  mHoursChanged = (OnHoursChangedListener) getActivity();
-                 mHoursChanged.onHoursChanged();
+                 mHoursChanged.onHoursChanged(curDate);
              } catch (ClassCastException e) {
                  throw new ClassCastException(mHoursChanged.toString()
                          + " must implement OnSelectedListener");
@@ -80,29 +80,8 @@ public class CurrentDateFragment extends Fragment {
       return v;
     }
 
-    //create a function to save totalvalue in a sharedPreference
 
-    /*datekey = 2020/01/06
-      cdRegHours * stHourlyRate
-      cdSickHours * getsick
-      ot * getOt
+    //shared prefs - userH
 
-      regHOurs onClick - getRegHours + getSickRate + getOtRate * all the settings vlaues then pass that anwser to the
-    *
-    */
-
-    /*\
-    * thinking of rewriting the whole application
-    *  CurrentDate - saves all shared preference data and adds the total to a key value pair
-    *  It may still be more beneficial to create a sharedViewModel
-    *
-    *  which values in my application need to be shared?
-    *  what does each activity accomplish?
-    *  where are the values being stored
-    *
-    *
-    *
-    *
-    * */
 
 }

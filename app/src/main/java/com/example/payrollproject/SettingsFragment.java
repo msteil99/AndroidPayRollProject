@@ -40,7 +40,7 @@ public class SettingsFragment extends Fragment {
         //lets create an on datechanged picker
 
 
-        SharedPreferences pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefKey),Context.MODE_PRIVATE);
+        SharedPreferences pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti),Context.MODE_PRIVATE);
         etHourlyRate.setText(pref.getString(getResources().getString(R.string.hourlyRateKey), "0"));
         etOtRate.setText(pref.getString(getResources().getString(R.string.otRateKey),"0"));
         etSickPercentage.setText(pref.getString(getResources().getString(R.string.sickPercentKey),"0"));
@@ -53,7 +53,7 @@ public class SettingsFragment extends Fragment {
         btnSetAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefKey), Context.MODE_PRIVATE).edit();
+                SharedPreferences.Editor editor = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE).edit();
                 editor.putString(getString(R.string.hourlyRateKey), etHourlyRate.getText().toString());
                 editor.putString(getString(R.string.otRateKey), etOtRate.getText().toString());
                 editor.putString(getString(R.string.sickPercentKey), etSickPercentage.getText().toString());
