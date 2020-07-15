@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class CurrentDateFragment extends Fragment {
 
-    //private String MyDatePREF = "MyPrefs";
+
     private String curDate;
     OnHoursChangedListener mHoursChanged;
 

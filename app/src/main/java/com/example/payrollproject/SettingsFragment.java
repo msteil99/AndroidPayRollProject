@@ -38,14 +38,11 @@ public class SettingsFragment extends Fragment {
         final EditText etDaysPerCycle = v.findViewById(R.id.etDaysPerCycle);
 
         //lets create an on datechanged picker
-
-
         SharedPreferences pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti),Context.MODE_PRIVATE);
         etHourlyRate.setText(pref.getString(getResources().getString(R.string.hourlyRateKey), "0"));
         etOtRate.setText(pref.getString(getResources().getString(R.string.otRateKey),"0"));
         etSickPercentage.setText(pref.getString(getResources().getString(R.string.sickPercentKey),"0"));
         etDaysPerCycle.setText((pref.getString(getResources().getString(R.string.daysPerCycleKey),"0")));
-
 
         //set all to string or to much work
         Button btnSetAll = v.findViewById(R.id.btnSetAll);
@@ -60,10 +57,6 @@ public class SettingsFragment extends Fragment {
                 editor.putString(getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
                 editor.commit();
 
-                //iterate dates here
-
-
-
                 try {
                     onSettingsChangedListener = (OnSettingsChangedListener)getActivity();
                     onSettingsChangedListener.onSettingsChanged();
@@ -74,7 +67,6 @@ public class SettingsFragment extends Fragment {
                 Toast.makeText(getContext(),"Saved",Toast.LENGTH_LONG).show();
             }
         });
-
         return v;
     }
 
