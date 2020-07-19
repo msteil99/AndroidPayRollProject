@@ -64,7 +64,7 @@ public class SettingsFragment extends Fragment {
                     throw new ClassCastException(onSettingsChangedListener.toString()
                             + " must implement OnSelectedListener");
                 }
-                Toast.makeText(getContext(),"Saved",Toast.LENGTH_LONG).show();
+               // Toast.makeText(getContext(),"Saved",Toast.LENGTH_LONG).show();
             }
         });
         return v;
@@ -72,6 +72,16 @@ public class SettingsFragment extends Fragment {
 
     /****
      * Application is crashing if settings is not instantiate to a number prior to start
+     *
+     *     public void sumPayPeriod(String payperiod){
+     *
+     *
+     *        // Map<String, ?> allEntries = sharedPrefPay.getAll();
+     *         //for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+     *            // if(entry.getValue() == String.valueOf(payperiod))
+     *
+     *         //}
+     *     }
 
      * **/
 
