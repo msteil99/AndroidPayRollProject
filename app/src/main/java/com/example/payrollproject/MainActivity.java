@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     public void onSettingsChanged() {
 
         sharedPrefSeti = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE));
+        sharedPrefPay =  Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
         //values set by user
         String regRate = sharedPrefSeti.getString(getResources().getString(R.string.hourlyRateKey), "0"); //change to non null
         String otRate = sharedPrefSeti.getString(getResources().getString(R.string.otRateKey), "0");
@@ -94,37 +95,43 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         LocalDate dateStart = LocalDate.of(2020, 7, 1); //parse value from settings
         LocalDate dateEnd = LocalDate.of(2020, 7, 31); // parse value from settings
 
+        dateKey = dateStart.getYear() + "/" + dateStart.getMonthValue() + "/" + dateStart.getDayOfMonth(); //returns 2020/07/01;
 
-         dateKey = dateStart.getYear() + "/" + dateStart.getMonthValue() + "/" + dateStart.getDayOfMonth(); //returns 2020/07/01;
+        //this appears to work
+        int payRollNum = sharedPrefPay.getInt(R.string.payPeriodNumber + dateKey,0); // crashed the application a couple times? should be non null value
+        //int payRollNum = 0;
+        float sum = 0;
+        int daysPerCycle = 14; //get value from settings
 
-        //returning 39 at this point
-        //int payRollNum = sharedPrefPay.getInt(dateKey,0); // crashed the application a couple times? should be non null value
-          int payRollNum = 0;
-          double sum = 0;
-
-         int daysPerCycle = 14; //get value from settings
+         //todo get and set paydates
          editor= Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit());
          while (dateStart.isBefore(dateEnd)) {
            for (int i = 0; i < daysPerCycle; i++) {
-                editor.putInt( dateKey,payRollNum);
-                 saveDayTotal(dateKey); //appears to work
-                 sum+=Double.parseDouble(getDayTotal(dateKey));
-                 //savePayPeriodTotal();
-                dateStart = dateStart.plusDays(1);
+               //save total amount made for the day
+               saveDayTotal(dateKey); //appears to work
+               //sum payperiod total
+               sum+=Double.parseDouble(getDayTotal(dateKey));
+               //save payperiod number as an int
+               editor.putInt(R.string.payPeriodNumber + dateKey,payRollNum);
+               //iterate date plus 1
+               dateStart = dateStart.plusDays(1);
+               //change datekey + 1
+               dateKey = dateStart.getYear() + "/" + dateStart.getMonthValue() + "/" + dateStart.getDayOfMonth();
            }
-            //todo save pay sum + track payroll num
-           Toast.makeText(this,"payRollNum " + payRollNum,Toast.LENGTH_LONG).show();
-
-
-            payRollNum++;
+             Toast.makeText(this,"payRollTotal " + sum ,Toast.LENGTH_LONG).show();
+            //save payperiod total
+             editor.putFloat(getResources().getString(R.string.payPeriodTotalKey) + payRollNum,sum);
+             sum = 0;
+             payRollNum++;
          }
             editor.apply();
-       // Toast.makeText(this, payRollNum,Toast.LENGTH_LONG).show();
 
 
+        //below is a test
         sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
-        float check= sharedPrefPay.getFloat(getResources().getString(R.string.payPeriodTotalKey) + 0, 0);
-       // Toast.makeText(this, getDayTotal("2020/07/02"),Toast.LENGTH_LONG).show(); //returns 39
+        //try for payroll 14
+        float chc = sharedPrefPay.getFloat(getResources().getString(R.string.payPeriodTotalKey) + 15,0);
+       // Toast.makeText(this,"payper 14 "+ chc,Toast.LENGTH_LONG).show();
 
     }
 
@@ -133,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         Toast.makeText(this, String.valueOf(payRollTrack.getDayTotal()), Toast.LENGTH_LONG).show();
     }
 
-    //todo this one is not returning properly, going another route :)
+    //todo redo this loop if needed
     public void sumPayPeriod(int payPeriod){
         String date;
         float sum = 0;
@@ -151,9 +158,9 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         }
          editor.commit();
 
-        sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
-       Float check= sharedPrefPay.getFloat(getResources().getString(R.string.payPeriodTotalKey) + payPeriod,0);
-       Toast.makeText(this,"hmmm- " + sum,Toast.LENGTH_LONG).show();
+      // sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
+      // Float check= sharedPrefPay.getFloat(getResources().getString(R.string.payPeriodTotalKey) + payPeriod,0);
+      // Toast.makeText(this,"hmmm- " + sum,Toast.LENGTH_LONG).show();
 
     }
 

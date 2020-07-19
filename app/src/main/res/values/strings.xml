@@ -5,7 +5,7 @@
     <string name="sickPercentKey">sickPercent</string>
     <string name="daysPerCycleKey">daysPerCycle</string>
     <string name="payPeriodTotalKey">payPerTotal</string>
-    <string name = "peyPeriodNumber">payPerNum</string>
+    <string name = "payPeriodNumber">payPerNum</string>
     <string name= "dateKey">dateKey</string>
     <string name="prefSeti">prefSeti</string>
     <string name="prefPayRoll">prefPayRoll</string>
