@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.Calendar;
 
@@ -19,6 +20,7 @@ public class CalendarFragment extends Fragment {
 
   //  private String dateKey;
     OnSelectedListener mdateSelected;
+    private CalendarView calendar;
 
     //create an interface that the main activity must implement called on date sleected that handles date selecected
      //The container Activity must implement this interface so the frag can deliver messages
@@ -39,6 +41,14 @@ public class CalendarFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_calendar, container, false);
 
+
+        //todo check check
+        //final TextView tvPayTotal = v.findViewById(R.id.tvNextPayNum);
+        //todo check check
+        //assert getArguments() != null;
+        //tvPayTotal.setText(getArguments().getString("PayDate"));
+
+
         ImageView imageView = v.findViewById(R.id.imSetting);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,11 +63,11 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        CalendarView calendar = v.findViewById(R.id.calendarView);
+        calendar = v.findViewById(R.id.calendarView);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
-                String dateKey = year + "/" + month + "/" + day;
+                String dateKey = year + "-" + month + "-" + day;
                 // This makes sure that the container activity has implemented
                 // the callback interface. If not, it throws an exception.
                 try {

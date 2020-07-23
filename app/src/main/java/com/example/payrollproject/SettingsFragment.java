@@ -54,8 +54,8 @@ public class SettingsFragment extends Fragment {
                 editor.putString(getString(R.string.hourlyRateKey), etHourlyRate.getText().toString());
                 editor.putString(getString(R.string.otRateKey), etOtRate.getText().toString());
                 editor.putString(getString(R.string.sickPercentKey), etSickPercentage.getText().toString());
-                editor.putString(getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
-                editor.commit();
+              //  editor.putString(getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
+                editor.apply();
 
                 try {
                     onSettingsChangedListener = (OnSettingsChangedListener)getActivity();
@@ -64,7 +64,7 @@ public class SettingsFragment extends Fragment {
                     throw new ClassCastException(onSettingsChangedListener.toString()
                             + " must implement OnSelectedListener");
                 }
-               // Toast.makeText(getContext(),"Saved",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"Saved",Toast.LENGTH_LONG).show();
             }
         });
         return v;
