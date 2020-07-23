@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CalendarView;
+
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,10 +19,11 @@ public class CurrentDateFragment extends Fragment {
 
 
     private String curDate;
-    OnHoursChangedListener mHoursChanged;
+    private OnHoursChangedListener mHoursChanged;
 
     public interface OnHoursChangedListener {
-         void onHoursChanged(String dateKey);
+        //check check
+        void onHoursChanged(String dateKey);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class CurrentDateFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-     curDate = getArguments().getString("dateKey");
+     curDate = getArguments().getString(getResources().getString(R.string.dateKey));
 
      //the inflater object inflates a view that has not yet been created where is the findViewByID has already been inflated
      View v = inflater.inflate(R.layout.fragment_current_date, container, false);
@@ -69,9 +70,9 @@ public class CurrentDateFragment extends Fragment {
 
              try {
                  mHoursChanged = (OnHoursChangedListener) getActivity();
-                 mHoursChanged.onHoursChanged(curDate);
+                 Objects.requireNonNull(mHoursChanged).onHoursChanged(curDate);
              } catch (ClassCastException e) {
-                 throw new ClassCastException(mHoursChanged.toString()
+                 throw new ClassCastException(Objects.requireNonNull(mHoursChanged).toString()
                          + " must implement OnSelectedListener");
              }
              //Toast.makeText(getContext(),"saved",Toast.LENGTH_SHORT).show();

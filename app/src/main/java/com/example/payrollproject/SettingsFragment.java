@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,7 @@ public class SettingsFragment extends Fragment {
     OnSettingsChangedListener onSettingsChangedListener;
 
     public interface OnSettingsChangedListener {
-        public void onSettingsChanged();
+         void onSettingsChanged();
     }
 
     @Override
@@ -54,14 +56,14 @@ public class SettingsFragment extends Fragment {
                 editor.putString(getString(R.string.hourlyRateKey), etHourlyRate.getText().toString());
                 editor.putString(getString(R.string.otRateKey), etOtRate.getText().toString());
                 editor.putString(getString(R.string.sickPercentKey), etSickPercentage.getText().toString());
-              //  editor.putString(getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
+                editor.putString(getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
                 editor.apply();
 
                 try {
                     onSettingsChangedListener = (OnSettingsChangedListener)getActivity();
-                    onSettingsChangedListener.onSettingsChanged();
+                    Objects.requireNonNull(onSettingsChangedListener).onSettingsChanged();
                 } catch (ClassCastException e) {
-                    throw new ClassCastException(onSettingsChangedListener.toString()
+                    throw new ClassCastException(Objects.requireNonNull(onSettingsChangedListener).toString()
                             + " must implement OnSelectedListener");
                 }
                 Toast.makeText(getContext(),"Saved",Toast.LENGTH_LONG).show();
@@ -69,55 +71,6 @@ public class SettingsFragment extends Fragment {
         });
         return v;
     }
-
-    /****
-     * Application is crashing if settings is not instantiate to a number prior to start
-     *
-     *     public void sumPayPeriod(String payperiod){
-     *
-     *
-     *        // Map<String, ?> allEntries = sharedPrefPay.getAll();
-     *         //for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-     *            // if(entry.getValue() == String.valueOf(payperiod))
-     *
-     *         //}
-     *     }
-
-     * **/
-
-    // I need a frm and to date in the settings application. this will iterate and apply key value pairs
-    //(datekey,payperiodval)
-    //usePayPeriodVal now in the curDateFrag when I enter the daily value it finds the corresponding payperiodval and adds the date
-    //first is iterate and apply values
-
-
-
-
-    //return the next pay date given the current date and cycle
-    //var - payperiod length, payperiod startdate
-
-    //onclick - iterate through the calendar given the start date - this could iterate all the way to the current date
-    //populate the values and save until the algorith
-    //mainActivity will have to get the currentDate and calculate the next payperiod
-    // add a listener to communicate with main activity when the value of days per cycle and start date are assigned
-    //the application could sum the values from the current dates - lets try and sum values form currentdate
-    //could I just use the same key formula and iterate
-
-    /*
-    *
-    *   set all to 0 button/ reset button
-    *
-    *
-    * */
-
-    //once the user hits enter in the setting application the program goes to work - basically it will take the start date and the amount of days
-    //to iterate through applying all values it has so far, the user can change the values in the calendar object as needed and the application
-    //will update
-
-
-
-
-
 }
 
 

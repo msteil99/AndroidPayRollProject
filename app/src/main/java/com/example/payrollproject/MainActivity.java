@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     private CalendarFragment calendarFragment;
     private FragmentManager fragMan; private FragmentTransaction fragTrans;
     private String dateKey;
-    private int year, month, day;
     private SharedPreferences sharedPrefSeti, sharedPrefPay;
     private SharedPreferences.Editor editor;
     private PayRollTrack payRollTrack;
@@ -42,15 +41,16 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //access shared preferences
         sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
+        sharedPrefSeti = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE));
         dateKey= curDate.getYear() + "-" + curDate.getMonthValue() + "-" + curDate.getDayOfMonth();
 
-        int payRNum = sharedPrefPay.getInt(R.string.payPeriodNumber + dateKey, 0);
-       // Log.d("prnumoncreate", String.valueOf(payRNum)); //0
+        int payRNum = sharedPrefPay.getInt(getResources().getString(R.string.payPeriodNumber) + dateKey, 0);
         float payPeriodTotal=
         sharedPrefPay.getFloat(getResources().getString(R.string.payPeriodTotalKey) + payRNum, 0);
-        //Log.d("paypertotaloncreate", String.valueOf(payPeriodTotal));// 0.0
+
+        Log.d("prnumoncreate", String.valueOf(payRNum)); //0
+        Log.d("paypertotaloncreate", String.valueOf(payPeriodTotal));// 0.0
 
         Bundle args = new Bundle();
         args.putString("PayDate", String.valueOf(payPeriodTotal));
@@ -62,11 +62,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         fragTrans
                 .add(R.id.flFragment, calendarFragment)
                 .commit();
-       // Log.d("dateonstart",dateKey); //2020-7-22
-
     }
-
-
 
     public void onDateSelected(String dateKey) {
         CurrentDateFragment dateFragment = new CurrentDateFragment();
@@ -75,15 +71,16 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         String parseDate = dateKey;
         String delims = "-";
         String[] tokens = parseDate.split(delims);
-        year = Integer.parseInt(tokens[0]);
-        month = Integer.parseInt(tokens[1]) + 1;
-        day = Integer.parseInt(tokens[2]);
+
+        int year = Integer.parseInt(tokens[0]);
+        int month = Integer.parseInt(tokens[1]) + 1;
+        int day = Integer.parseInt(tokens[2]);
 
         //todo what does this key do compared to the other dateKey
         dateKey = year + "-" + month + "-" + day; //2020-7-1
         this.dateKey = dateKey; // need this to compute value
 
-        Toast.makeText(this,dateKey,Toast.LENGTH_LONG).show(); //ok
+       // Toast.makeText(this,dateKey,Toast.LENGTH_LONG).show(); //ok
 
         args.putString("dateKey", dateKey);
         dateFragment.setArguments(args);
@@ -108,34 +105,16 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
      //todo having toruble saving the payrolltrack number and saving and returng full payroll amount
     public void onSettingsChanged() {
 
-        sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
-        sharedPrefSeti = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE));
-
-        //values set by user
-        String regRate = sharedPrefSeti.getString(getResources().getString(R.string.hourlyRateKey), "0"); //change to non null
-       // Log.d("regRate", regRate);
-        String otRate = sharedPrefSeti.getString(getResources().getString(R.string.otRateKey), "0");
-       // Log.d("otRate",otRate);
-        String sickRate = sharedPrefSeti.getString(getResources().getString(R.string.sickPercentKey), "0");
-       // Log.d("sickrate",sickRate);
-        //payRollTrack for most calculations
-        payRollTrack = new PayRollTrack(); //
-        payRollTrack.setHourlyRate(Double.parseDouble(regRate));//get this from settins  \/
-        payRollTrack.setOverTimeRate(Double.parseDouble(otRate));
-        payRollTrack.setSickPay(Double.parseDouble(sickRate));//get this from settings
-
+        getPayRollSeti();
         //get first and last day of the pay period
         LocalDate dateStart = LocalDate.of(2020, 7, 1); //parse value from settings
         LocalDate dateEnd = LocalDate.of(2020, 7, 31); // parse value from settings
 
         dateKey = dateStart.getYear() + "-" + dateStart.getMonthValue() + "-" + dateStart.getDayOfMonth(); //returns 2020/7/01;
-        //Log.d("checkDate1", dateKey);
-        //this appears to work
 
-        //payroll num return 0,0,2
-        //will it start at 0 if i change the date
-        int payRollNum = sharedPrefPay.getInt(R.string.payPeriodNumber + dateKey,0); // crashed the application a couple times? should be non null value
-        //Log.d("payrollnumstart", String.valueOf(payRollNum));
+
+        int payRollNum = sharedPrefPay.getInt(getResources().getString(R.string.payPeriodNumber) + dateKey,0); // crashed the application a couple times? should be non null value
+        Log.d("payrollnumstart", String.valueOf(payRollNum));
         float sum = 0;
         int daysPerCycle = 14; //get value from settings
 
@@ -148,10 +127,10 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
                sum+=Double.parseDouble(getDayTotal(dateKey));
                 //todo fix me
                editor.putInt(R.string.payPeriodNumber + dateKey, payRollNum);
-               //Log.d("payrollnumloop", String.valueOf(payRollNum)); //correct
+               Log.d("payrollnumloop", String.valueOf(payRollNum)); //correct
                dateStart = dateStart.plusDays(1);
                dateKey = dateStart.getYear() + "-" + dateStart.getMonthValue() + "-" + dateStart.getDayOfMonth();
-              // Log.d("checkdate2", dateKey);
+               Log.d("checkdate2", dateKey);
            }
              editor.putFloat(getResources().getString(R.string.payPeriodTotalKey) + payRollNum, sum);
              sum = 0;
@@ -183,11 +162,6 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
          editor.putFloat(getResources().getString(R.string.payPeriodTotalKey) + payPeriod ,sum);
         }
          editor.commit();
-
-      // sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
-      // Float check= sharedPrefPay.getFloat(getResources().getString(R.string.payPeriodTotalKey) + payPeriod,0);
-      // Toast.makeText(this,"hmmm- " + sum,Toast.LENGTH_LONG).show();
-
     }
 
 
@@ -195,30 +169,44 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
         return 0;
     }
-
-    //works
+    /*function to save total for the day, gets all previous values from settings and uses PayRollTrack object to
+    * compute the daily value*/
     public void saveDayTotal(String dateKey){
-        //todo check sharedPref duplicates
-        //todo check delete
-      // sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
+        getPayRollSeti();
 
         String regHours = sharedPrefPay.getString(dateKey + "reg", "0"); //this works String regHoursKey = curDate + "reg";
         String otHours = sharedPrefPay.getString(dateKey + "ot", "0");
         String sickHours = sharedPrefPay.getString(dateKey + "sick", "0");
 
-        payRollTrack.setRegWorked(Double.parseDouble(regHours));
-        payRollTrack.setOtWorked(Double.parseDouble(otHours));
-        payRollTrack.setSickWorked(Double.parseDouble(sickHours));
+        payRollTrack.setRegWorked(Double.parseDouble(Objects.requireNonNull(regHours)));
+        payRollTrack.setOtWorked(Double.parseDouble(Objects.requireNonNull(otHours)));
+        payRollTrack.setSickWorked(Double.parseDouble(Objects.requireNonNull(sickHours)));
         //todo check for editor duplicates
         editor = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit());
         editor.putString("DayTotal" + dateKey, String.valueOf(payRollTrack.getDayTotal())).commit();
-
     }
+
     //works -- could change to save a float since its numeric //todo change name since payrolltrack has same method
     public String getDayTotal(String dateKey){
         sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
-        String dayTotal =  sharedPrefPay.getString("DayTotal"+ dateKey, "");
-        return dayTotal;
+        return sharedPrefPay.getString("DayTotal"+ dateKey, "");
+    }
+
+    /*Function to get previous payroll setting or set new ones, adding values to PayRollTrack class to
+    * compute daily value, pay period totals etc  */
+    public void getPayRollSeti(){
+        //values set by user
+        String regRate = sharedPrefSeti.getString(getResources().getString(R.string.hourlyRateKey), "0"); //change to non null
+        Log.d("regRate", Objects.requireNonNull(regRate));
+        String otRate = sharedPrefSeti.getString(getResources().getString(R.string.otRateKey), "0");
+        Log.d("otRate", Objects.requireNonNull(otRate));
+        String sickRate = sharedPrefSeti.getString(getResources().getString(R.string.sickPercentKey), "0");
+        Log.d("sickrate", Objects.requireNonNull(sickRate));
+        //payRollTrack for most calculations
+        payRollTrack = new PayRollTrack(); //
+        payRollTrack.setHourlyRate(Double.parseDouble(Objects.requireNonNull(regRate)));//get this from settins  \/
+        payRollTrack.setOverTimeRate(Double.parseDouble(Objects.requireNonNull(otRate)));
+        payRollTrack.setSickPay(Double.parseDouble(Objects.requireNonNull(sickRate)));//get this from settings
     }
 
     public void getPayPeriodTotal(String Payperiod){
