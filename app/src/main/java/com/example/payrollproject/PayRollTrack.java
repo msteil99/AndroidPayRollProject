@@ -14,25 +14,24 @@ public class PayRollTrack {
     private double regWorked, otWorked, sickWorked;
     private LocalDate frmDate, toDate;
 
+    //todo function to say if setPayPeriod, getPayPeriod, isCurrentPayPeriod(LocalDate date).
+
 
     public PayRollTrack(){}
 
-    //set user income per hour
+    //set/get user income per hour
     public void setHourlyRate(double hourlyRate){
         this.hourlyRate = hourlyRate;
     }
-
-    //return user income per hour
     public double getHourlyRate(){
         return hourlyRate;
     }
 
-    //this method sets the percentage of pay if user has sick rate
-    public void setSickPay(double percentage){
+    //percentage of pay
+    public void setPayPercent(double percentage){
         this.sickPay = percentage/100 * hourlyRate;
     }
-
-    public double getSickPay(){
+    public double getPayPercent(){
         return sickPay/100 * hourlyRate;
     }
 
@@ -40,7 +39,6 @@ public class PayRollTrack {
     public void setOverTimeRate(double multiple){
         otRate = multiple * hourlyRate;
     }
-
     public double getOverTime(){
         return otRate;
     }
@@ -49,18 +47,18 @@ public class PayRollTrack {
     public void setRegWorked(double regWorked){
         this.regWorked = regWorked;
     }
-
     public double getRegWorked(){
         return regWorked;
     }
 
+    public void setOtWorked(double otWorked){
+        this.otWorked = otWorked;
+    }
     public double getOtWorked(){
         return otWorked;
     }
     //return the hours of OT worked in a day
-    public void setOtWorked(double otWorked){
-        this.otWorked = otWorked;
-    }
+
 
     public double getSickWorked(){
         return sickWorked;
