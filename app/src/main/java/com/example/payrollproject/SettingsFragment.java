@@ -52,12 +52,12 @@ public class SettingsFragment extends Fragment {
         btnSetAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences.Editor editor = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE).edit();
-                editor.putString(getString(R.string.hourlyRateKey), etHourlyRate.getText().toString());
-                editor.putString(getString(R.string.otRateKey), etOtRate.getText().toString());
-                editor.putString(getString(R.string.sickPercentKey), etSickPercentage.getText().toString());
-                editor.putString(getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
-                editor.apply();
+                SharedPreferences.Editor edSet = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE).edit();
+                edSet.putString(getString(R.string.hourlyRateKey), etHourlyRate.getText().toString());
+                edSet.putString(getString(R.string.otRateKey), etOtRate.getText().toString());
+                edSet.putString(getString(R.string.sickPercentKey), etSickPercentage.getText().toString());
+                edSet.putString(getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
+                edSet.apply();
 
                 try {
                     onSettingsChangedListener = (OnSettingsChangedListener)getActivity();

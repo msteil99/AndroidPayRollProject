@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">PayRollProject</string>
-    <string name="hourlyRateKey">hourlyRate</string>
-    <string name="otRateKey">otRate</string>
-    <string name="sickPercentKey">sickPercent</string>
-    <string name="daysPerCycleKey">daysPerCycle</string>
-    <string name="payPeriodTotalKey">payPerTotal</string>
-    <string name = "payPeriodNumber">payPerNum</string>
+    <string name="hourlyRateKey">hourlyRateKey</string>
+    <string name="otRateKey">otRateKey</string>
+    <string name="sickPercentKey">sickPercentKey</string>
+    <string name="daysPerCycleKey">daysPerCycleKey</string>
+    <string name="payPeriodTotalKey">payPerTotalKey</string>
+    <string name = "payPeriodNumKey">payPerNumKey</string>
     <string name= "dateKey">dateKey</string>
     <string name="prefSeti">prefSeti</string>
     <string name="prefPayRoll">prefPayRoll</string>

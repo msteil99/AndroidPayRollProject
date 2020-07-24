@@ -24,14 +24,12 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     private FragmentManager fragMan; private FragmentTransaction fragTrans;
     private String dateKey;
     private SharedPreferences sharedPrefSeti, sharedPrefPay;
-    private SharedPreferences.Editor editor;
+    private SharedPreferences.Editor edMain;
     private PayRollTrack payRollTrack;
-    private LocalDate curDate = LocalDate.now(); //2020-07-19
+    private LocalDate curDate = LocalDate.now(); //2020-7-19
 
-    //todo change tvNextPayNum in calendarFrag to represent the next Pay
-    //todo getCurrentPayPeriod then get pay amount for that pay period
-    //todo sharedpref payroll num not returning properly
-    //todo crashing if settings not set each time
+    //todo next change date to next payroll date + update nextPayroll amount when changed in date
+
 
     /*on init function finds the current date to retrieve pay period number and amount passing args to
       a calendar fragment to display next pay period amount
@@ -44,17 +42,17 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
         sharedPrefSeti = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE));
         dateKey= curDate.getYear() + "-" + curDate.getMonthValue() + "-" + curDate.getDayOfMonth();
+        Log.d("datekeystart", dateKey);
 
-        int payRNum = sharedPrefPay.getInt(getResources().getString(R.string.payPeriodNumber) + dateKey, 0);
+        int payRNum = sharedPrefPay.getInt(getResources().getString(R.string.payPeriodNumKey) + dateKey, 0);
         float payPeriodTotal=
         sharedPrefPay.getFloat(getResources().getString(R.string.payPeriodTotalKey) + payRNum, 0);
 
-        Log.d("prnumoncreate", String.valueOf(payRNum)); //0
-        Log.d("paypertotaloncreate", String.valueOf(payPeriodTotal));// 0.0
+        Log.d("prnumoncreate", String.valueOf(payRNum)); //1
+        Log.d("paypertotaloncreate", String.valueOf(payPeriodTotal));//486.5
 
         Bundle args = new Bundle();
         args.putString("PayDate", String.valueOf(payPeriodTotal));
-
         calendarFragment = new CalendarFragment();
         calendarFragment.setArguments(args);
         fragMan = getSupportFragmentManager();
@@ -103,8 +101,10 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
                 .commit();
     }
      //todo having toruble saving the payrolltrack number and saving and returng full payroll amount
-    public void onSettingsChanged() {
+     int checksharedpr = 0;
 
+
+    public void onSettingsChanged() {
         getPayRollSeti();
         //get first and last day of the pay period
         LocalDate dateStart = LocalDate.of(2020, 7, 1); //parse value from settings
@@ -112,40 +112,53 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
 
         dateKey = dateStart.getYear() + "-" + dateStart.getMonthValue() + "-" + dateStart.getDayOfMonth(); //returns 2020/7/01;
 
-
-        int payRollNum = sharedPrefPay.getInt(getResources().getString(R.string.payPeriodNumber) + dateKey,0); // crashed the application a couple times? should be non null value
+        //check if number assigned to payroll if not 0
+        int payRollNum = sharedPrefPay.getInt(getResources().getString(R.string.payPeriodNumKey) + dateKey,0); // crashed the application a couple times? should be non null value
         Log.d("payrollnumstart", String.valueOf(payRollNum));
         float sum = 0;
         int daysPerCycle = 14; //get value from settings
 
          //todo get and set paydate functions
-         editor= Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit());
+          edMain = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit());
+
           while (dateStart.isBefore(dateEnd)) {
            for (int i = 0; i < daysPerCycle; i++) {
+               //save day total
                saveDayTotal(dateKey); //appears to work
                //sum payperiod total
                sum+=Double.parseDouble(getDayTotal(dateKey));
                 //todo fix me
-               editor.putInt(R.string.payPeriodNumber + dateKey, payRollNum);
+               edMain.putInt(getResources().getString(R.string.payPeriodNumKey) + dateKey, payRollNum);
+
+               //test
+               checksharedpr = sharedPrefPay.getInt(getResources().getString(R.string.payPeriodNumKey) + dateKey,0);
+               Log.d("check3",String.valueOf(checksharedpr));
+               Log.d("checkkey3",getResources().getString(R.string.payPeriodTotalKey)+dateKey);
+               //test
+
                Log.d("payrollnumloop", String.valueOf(payRollNum)); //correct
                dateStart = dateStart.plusDays(1);
                dateKey = dateStart.getYear() + "-" + dateStart.getMonthValue() + "-" + dateStart.getDayOfMonth();
                Log.d("checkdate2", dateKey);
            }
-             editor.putFloat(getResources().getString(R.string.payPeriodTotalKey) + payRollNum, sum);
+             edMain.putFloat(getResources().getString(R.string.payPeriodTotalKey) + payRollNum, sum);
              sum = 0;
              payRollNum++;
           }
-            editor.apply();
 
+            edMain.apply();
+
+          Log.d("payrollnumend", String.valueOf(payRollNum));
     }
+
     //todo check saveDayTotal seems to be crashing because settings not saving to sharepreferences?
     public void onHoursChanged(String dateKey) {
         saveDayTotal(dateKey);
+        edMain.apply();
         Toast.makeText(this,String.valueOf(payRollTrack.getDayTotal()),Toast.LENGTH_LONG).show();
     }
 
-    //todo redo this loop if needed
+    /*todo redo this loop if needed
     public void sumPayPeriod(int payPeriod){
         String date;
         float sum = 0;
@@ -164,6 +177,8 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
          editor.commit();
     }
 
+     */
+
 
     public int getPayPeriod(String date){
         sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
@@ -171,7 +186,10 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     }
     /*function to save total for the day, gets all previous values from settings and uses PayRollTrack object to
     * compute the daily value*/
+    //todo fix function - works but opening and closing editor is not great practice
     public void saveDayTotal(String dateKey){
+       // SharedPreferences.Editor edSaveDay;
+
         getPayRollSeti();
 
         String regHours = sharedPrefPay.getString(dateKey + "reg", "0"); //this works String regHoursKey = curDate + "reg";
@@ -182,8 +200,8 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         payRollTrack.setOtWorked(Double.parseDouble(Objects.requireNonNull(otHours)));
         payRollTrack.setSickWorked(Double.parseDouble(Objects.requireNonNull(sickHours)));
         //todo check for editor duplicates
-        editor = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit());
-        editor.putString("DayTotal" + dateKey, String.valueOf(payRollTrack.getDayTotal())).commit();
+        edMain = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit());
+        edMain.putString("DayTotal" + dateKey, String.valueOf(payRollTrack.getDayTotal()));
     }
 
     //works -- could change to save a float since its numeric //todo change name since payrolltrack has same method

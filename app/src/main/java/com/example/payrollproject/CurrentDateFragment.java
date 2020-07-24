@@ -62,11 +62,11 @@ public class CurrentDateFragment extends Fragment {
       btnAddHours.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
-         SharedPreferences.Editor editor = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit();
-         editor.putString(regHoursKey, etCurDateReg.getText().toString());
-         editor.putString(otHoursKey,etCurDateOt.getText().toString());
-         editor.putString(sickHoursKey,etCurDateSick.getText().toString());
-         editor.apply();
+         SharedPreferences.Editor edCurDate = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit();
+         edCurDate.putString(regHoursKey, etCurDateReg.getText().toString());
+         edCurDate.putString(otHoursKey,etCurDateOt.getText().toString());
+         edCurDate.putString(sickHoursKey,etCurDateSick.getText().toString());
+         edCurDate.apply();
 
              try {
                  mHoursChanged = (OnHoursChangedListener) getActivity();
