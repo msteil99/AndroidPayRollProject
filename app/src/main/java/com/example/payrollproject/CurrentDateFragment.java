@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +39,7 @@ public class CurrentDateFragment extends Fragment {
 
 
      curDate = getArguments().getString(getResources().getString(R.string.dateKey));
+     Log.d("curdatekey", curDate); //works
 
      //the inflater object inflates a view that has not yet been created where is the findViewByID has already been inflated
      View v = inflater.inflate(R.layout.fragment_current_date, container, false);
