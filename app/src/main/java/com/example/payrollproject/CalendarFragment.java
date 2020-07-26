@@ -44,8 +44,9 @@ public class CalendarFragment extends Fragment {
 
         //todo check check
         final TextView tvPayTotal = v.findViewById(R.id.tvNextPayNum);
-        tvPayTotal.setText(getArguments().getString("PayDate"));
-
+        tvPayTotal.setText(getArguments().getString(getResources().getString(R.string.payPeriodTotalKey)));
+        final TextView tvNextPayDate = v.findViewById(R.id.tvNextPayDate);
+        tvNextPayDate.setText(getArguments().getString(getResources().getString(R.string.payDateKey)));
 
         ImageView imageView = v.findViewById(R.id.imSetting);
         imageView.setOnClickListener(new View.OnClickListener() {
