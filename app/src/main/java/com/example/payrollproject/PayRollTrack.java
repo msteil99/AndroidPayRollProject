@@ -59,11 +59,9 @@ public class PayRollTrack {
     }
     //return the hours of OT worked in a day
 
-
     public double getSickWorked(){
         return sickWorked;
     }
-
     public void setSickWorked(double sickWorked){
         this.sickWorked = sickWorked;
     }
@@ -71,25 +69,9 @@ public class PayRollTrack {
     public double getDayTotal(){
         return (regWorked * hourlyRate)+(otWorked * otRate)+(sickPay * sickWorked);
     }
-
-    //maybe can parse the key
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void iterateDates(int frmYear, int frmMonth, int frmDay, int numDays, int toDay, int toMonth, int toYear){
-
-         frmDate = LocalDate.of(frmYear,frmMonth,frmDay);
-         toDate = LocalDate.of(toYear,toMonth,toDay);
-
-        while(frmDate.isBefore(toDate)) {
-            for (int i = 0; i < numDays; i++) {
-                frmDate = frmDate.plusDays(1);
-            }
-        }
-
-
-
-        }
-
-
 }
+
+
+
 
 
