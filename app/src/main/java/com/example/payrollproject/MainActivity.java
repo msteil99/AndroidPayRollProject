@@ -212,31 +212,16 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     private float payRollTotal;
 
 
+
+
     public UserData(LocalDate date){
-      sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
-      setDateKey(dateKey = date.getYear() + "-" + date.getMonthValue() + "-" + date.getDayOfMonth()); //getDateKey(Local Date)
-      payRollNum =
-              sharedPrefPay.getInt(getResources().getString(R.string.payPeriodNumKey) + dateKey, 0);
-      setPayRollNum(payRollNum);
-      payPerTotal=
-              sharedPrefPay.getFloat(getResources().getString(R.string.payPeriodTotalKey) + payRollNum, 0);
-      setPayRollTotal(payPerTotal);
-      payDate=
-              sharedPrefPay.getString(getResources().getString(R.string.payDateKey)+payRollNum,"Date");
-      setPayDate(payDate);
+     sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
+     setData(date);
   }
 
     public UserData(String dateKey){
-        setDateKey(dateKey); //todo format check
-        payRollNum =
-                sharedPrefPay.getInt(getResources().getString(R.string.payPeriodNumKey) + dateKey, 0);
-        setPayRollNum(payRollNum);
-        payPerTotal=
-                sharedPrefPay.getFloat(getResources().getString(R.string.payPeriodTotalKey) + payRollNum, 0);
-        setPayRollTotal(payPerTotal);
-        payDate=
-                sharedPrefPay.getString(getResources().getString(R.string.payDateKey)+payRollNum,"Date");
-        setPayDate(payDate);
+     sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
+     setData(dateKey);
     }
 
 
@@ -275,6 +260,33 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
   private void setPayDate(String payDate){
    this.payDate = payDate;
   }
+  //sets all other data given the specified date
+  private void setData(String dateKey){
+      setDateKey(dateKey); //todo format check
+      payRollNum =
+              sharedPrefPay.getInt(getResources().getString(R.string.payPeriodNumKey) + dateKey, 0);
+      setPayRollNum(payRollNum);
+      payPerTotal=
+              sharedPrefPay.getFloat(getResources().getString(R.string.payPeriodTotalKey) + payRollNum, 0);
+      setPayRollTotal(payPerTotal);
+      payDate=
+              sharedPrefPay.getString(getResources().getString(R.string.payDateKey)+payRollNum,"Date");
+      setPayDate(payDate);
+  }
+
+  private void setData(LocalDate date){
+      setDateKey(dateKey = date.getYear() + "-" + date.getMonthValue() + "-" + date.getDayOfMonth()); //getDateKey(Local Date)
+      payRollNum =
+              sharedPrefPay.getInt(getResources().getString(R.string.payPeriodNumKey) + dateKey, 0);
+      setPayRollNum(payRollNum);
+      payPerTotal=
+              sharedPrefPay.getFloat(getResources().getString(R.string.payPeriodTotalKey) + payRollNum, 0);
+      setPayRollTotal(payPerTotal);
+      payDate=
+              sharedPrefPay.getString(getResources().getString(R.string.payDateKey)+payRollNum,"Date");
+      setPayDate(payDate);
+  }
+
   }
 
 }
