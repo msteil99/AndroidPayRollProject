@@ -24,7 +24,6 @@ public class CurrentDateFragment extends Fragment {
     private OnHoursChangedListener mHoursChanged;
 
     public interface OnHoursChangedListener {
-        //check check
         void onHoursChanged(String dateKey);
     }
 
@@ -36,7 +35,6 @@ public class CurrentDateFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
 
      curDate = getArguments().getString(getResources().getString(R.string.dateKey));
      Log.d("curdatekey", curDate); //works

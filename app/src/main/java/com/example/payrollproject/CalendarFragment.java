@@ -18,16 +18,12 @@ import java.util.Calendar;
 
 public class CalendarFragment extends Fragment {
 
-  //  private String dateKey;
-    OnSelectedListener mdateSelected;
-    private CalendarView calendar;
 
-    //create an interface that the main activity must implement called on date sleected that handles date selecected
-     //The container Activity must implement this interface so the frag can deliver messages
+  private OnSelectedListener mdateSelected;
+
     public interface OnSelectedListener {
-
-        public void onDateSelected(String key);
-        public void onSettingsSelected();
+        void onDateSelected(String key);
+        void onSettingsSelected();
     }
 
     @Override
@@ -41,8 +37,6 @@ public class CalendarFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_calendar, container, false);
 
-
-        //todo check check
         final TextView tvPayTotal = v.findViewById(R.id.tvNextPayNum);
         tvPayTotal.setText(getArguments().getString(getResources().getString(R.string.payPeriodTotalKey)));
         final TextView tvNextPayDate = v.findViewById(R.id.tvNextPayDate);
@@ -62,13 +56,12 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        calendar = v.findViewById(R.id.calendarView);
+        CalendarView calendar = v.findViewById(R.id.calendarView);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
-                String dateKey = year + "-" + month + "-" + day;
-                // This makes sure that the container activity has implemented
-                // the callback interface. If not, it throws an exception.
+                //month+1 so Jan = 1
+                String dateKey = year + "-" + (month+1) + "-" + day;
                 try {
                     mdateSelected = (OnSelectedListener)getActivity();
                     mdateSelected.onDateSelected(dateKey);
@@ -80,12 +73,5 @@ public class CalendarFragment extends Fragment {
         });
         return v;
     }
-
-
-
-
 }
 
-/*Next I would like the Next Pay date to populate the next pay period using the settings specifications
-* using the settings specifications I need to add the total for the next pay
-* I can then save each one separately*/

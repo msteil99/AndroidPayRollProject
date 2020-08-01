@@ -1,8 +1,5 @@
 package com.example.payrollproject;
 
-
-
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,8 +10,6 @@ import android.util.Log;
 import android.widget.Toast;
 import java.time.LocalDate;
 import java.util.Objects;
-
-
 
 public class MainActivity extends AppCompatActivity implements CalendarFragment.OnSelectedListener, CurrentDateFragment.OnHoursChangedListener,
         SettingsFragment.OnSettingsChangedListener {
@@ -28,6 +23,12 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     private float payPerTotal;
     private UserData userData;
 
+    //todo check rounding errors with all math functions + limit amount of decimals
+    //todo on first init of application settings should be applied first or application crashes
+
+   /*function gets previous user data for current date and pay period then
+      passes to the calendar fragment for display
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +38,9 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         //todo get the next paydate from
         sharedPrefSeti = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE));
 
-        Log.d("innerclass", userData.getDateKey());//works
-        Log.d("prnumoncreate", String.valueOf(userData.getPayRollNum())); //0
-        Log.d("paypertotaloncreate", String.valueOf(userData.getPayRollTotal()));// 0.0
+        Log.d("dateoncreate", userData.getDateKey());//works
+        Log.d("prnumoncreate", String.valueOf(userData.getPayRollNum()));
+        Log.d("paypertotaloncreate", String.valueOf(userData.getPayRollTotal()));
 
         Bundle args = new Bundle();
         args.putString(getResources().getString(R.string.payPeriodTotalKey), String.valueOf(userData.getPayRollTotal()));
@@ -53,21 +54,10 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
                 .add(R.id.flFragment, calendarFragment)
                 .commit();
     }
-
+    //user selects a date that will pass a date key and open fragment with the selected dates information
     public void onDateSelected(String dateKey) {
         CurrentDateFragment dateFragment = new CurrentDateFragment();
         Bundle args = new Bundle();
-
-        // parse month+1 so January = 1
-        String parseDate = dateKey;
-        String delims = "-";
-        String[] tokens = parseDate.split(delims);
-
-        int year = Integer.parseInt(tokens[0]);
-        int month = Integer.parseInt(tokens[1]) + 1;
-        int day = Integer.parseInt(tokens[2]);
-
-        dateKey = year + "-" + month + "-" + day; //2020-7-1
 
         args.putString("dateKey", dateKey);
         dateFragment.setArguments(args);
@@ -89,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
                 .addToBackStack(null)
                 .commit();
     }
-    //todo having toruble saving the payrolltrack number and saving and returng full payroll amount
+
     public void onSettingsChanged() {
         //retrieve any previous user data
         getPayRollSeti();
@@ -99,8 +89,6 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
 
         userData = new UserData(dateStart);
         int payRollNum = userData.getPayRollNum();
-       // setDateKey(dateStart); //returns 2020/7/01;
-       // setPayRollNum(getDateKey());//
         Log.d("payrollnumstart", String.valueOf(payRollNum));
 
         //sum total for payroll //todo sum total for year
@@ -127,10 +115,6 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         edMain.apply();
     }
 
-
-    //how could I iterate and update a pay period when the user changes a specific date.
-    //i need to find the first day of the payperiod and the last day
-
     public void onHoursChanged(String dateKey) {
         userData = new UserData(dateKey);
 
@@ -145,24 +129,18 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         //reset user data here, this should all be done in userdata class
         userData = new UserData(dateKey);
 
-        //todo save new payperiod total
-
         Log.d("hcNewTotal ", String.valueOf(payRollTotal));
 
-        //todo fix me
-        //update next pay value if current pay roll changed, reCalcualate pay roll
         if(userData.getPayRollNum() == new UserData(LocalDate.now()).getPayRollNum()){ //change
             Bundle args = new Bundle();
             args.putString(getResources().getString(R.string.payPeriodTotalKey), String.valueOf(payRollTotal));
             args.putString(getResources().getString(R.string.payDateKey), userData.getPayDate());
             calendarFragment.setArguments(args);
-            fragMan = getSupportFragmentManager();
-            fragTrans = fragMan.beginTransaction();
-            fragTrans
-                    .add(R.id.flFragment, calendarFragment)
-                    .commit();
         }
-        Toast.makeText(this,userData.getPayRollTotal() + " New PayPer Total " ,Toast.LENGTH_LONG).show();
+         fragMan = getSupportFragmentManager();
+         fragTrans = fragMan.beginTransaction();
+         fragTrans.add(R.id.flFragment, calendarFragment).commit();
+         Toast.makeText(this,"Saved" ,Toast.LENGTH_LONG).show();
     }
 
     /*function to save total for the day, gets all previous values from settings and uses PayRollTrack object to
