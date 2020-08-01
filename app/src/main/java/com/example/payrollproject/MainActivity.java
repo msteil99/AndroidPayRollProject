@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 import java.time.LocalDate;
-import java.util.Map;
 import java.util.Objects;
 
 
@@ -22,24 +21,13 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
 
     private CalendarFragment calendarFragment;
     private FragmentManager fragMan; private FragmentTransaction fragTrans;
-    private String dateKey, payDate;
     private SharedPreferences sharedPrefSeti;
     private SharedPreferences sharedPrefPay;
     private SharedPreferences.Editor edMain;
     private PayRollTrack payRollTrack;
-   // private int payRollNum;
     private float payPerTotal;
     private UserData userData;
-   // private LocalDate curDate = LocalDate.now(); //2020-07-19
 
-    //todo change tvNextPayNum in calendarFrag to represent the next Pay
-    //todo create get/set for most fuctions
-    //todo get key object to take a LocalDate object as a parameter and return dateKey string
-    //todo set user data constructor with datekey string in header and set all values
-
-    /*on init function finds the current date to retrieve pay period number and amount passing args to
-      a calendar fragment to display next pay period amount
-    * */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         int day = Integer.parseInt(tokens[2]);
 
         dateKey = year + "-" + month + "-" + day; //2020-7-1
-        this.dateKey = dateKey; //change current dateKey to selected date
 
         args.putString("dateKey", dateKey);
         dateFragment.setArguments(args);
@@ -104,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     }
     //todo having toruble saving the payrolltrack number and saving and returng full payroll amount
     public void onSettingsChanged() {
-        //function retrieves previous user data
+        //retrieve any previous user data
         getPayRollSeti();
         //first and last day of the pay period
         LocalDate dateStart = LocalDate.of(2020, 7, 10); //parse value from settings
@@ -213,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
 
     /*Function to get previous payroll setting or set new ones, adding values to PayRollTrack class to
      * compute daily value, pay period totals etc  */
+    //todo set Payroll settings
     public void getPayRollSeti(){
         //values set by user
         String regRate = sharedPrefSeti.getString(getResources().getString(R.string.hourlyRateKey), "0"); //change to non null
@@ -223,9 +211,9 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         Log.d("sickrate", Objects.requireNonNull(sickRate));
 
         payRollTrack = new PayRollTrack(); //
-        payRollTrack.setHourlyRate(Double.parseDouble(Objects.requireNonNull(regRate)));//get this from settins  \/
+        payRollTrack.setHourlyRate(Double.parseDouble(Objects.requireNonNull(regRate)));
         payRollTrack.setOverTimeRate(Double.parseDouble(Objects.requireNonNull(otRate)));
-        payRollTrack.setPayPercent(Double.parseDouble(Objects.requireNonNull(sickRate)));//get this from settings
+        payRollTrack.setPayPercent(Double.parseDouble(Objects.requireNonNull(sickRate)));
     }
 
     public void onBackPressed() {
