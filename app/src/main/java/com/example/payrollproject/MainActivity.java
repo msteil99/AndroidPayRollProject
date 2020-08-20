@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
 
     //todo check rounding errors with all math functions + limit amount of decimals
     //todo on first init of application settings should be applied first or application crashes
+    //todo create a custom time spinner for the xmls so the user can choose a time
+    // need to switch all math functions to calculate use time.
 
    /*function gets previous user data for current date and pay period then
       passes to the calendar fragment for display
@@ -33,9 +35,8 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //applies all values associated with the current date
         userData = new UserData(LocalDate.now());
-        //todo get the next paydate from
         sharedPrefSeti = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE));
 
         Log.d("dateoncreate", userData.getDateKey());//works
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         }
          fragMan = getSupportFragmentManager();
          fragTrans = fragMan.beginTransaction();
-         fragTrans.add(R.id.flFragment, calendarFragment).commit();
+         fragTrans.replace(R.id.flFragment, calendarFragment).commit();
          Toast.makeText(this,"Saved" ,Toast.LENGTH_LONG).show();
     }
 
@@ -203,16 +204,13 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         }
     }
 
-    /*Inner class to set all data*/
+    /*Inner class to retrieve user data for the selected date*/
  //todo for this program to work, once one of these is set all of them should be
   class UserData{
 
     private String dateKey,payDate;
     private int payRollNum;
     private float payRollTotal;
-
-
-
 
     public UserData(LocalDate date){
      sharedPrefPay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));

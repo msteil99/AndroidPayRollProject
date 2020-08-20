@@ -37,11 +37,13 @@ public class CalendarFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_calendar, container, false);
 
+        //applies next pay date and pay total for that date
         final TextView tvPayTotal = v.findViewById(R.id.tvNextPayNum);
         tvPayTotal.setText(getArguments().getString(getResources().getString(R.string.payPeriodTotalKey)));
         final TextView tvNextPayDate = v.findViewById(R.id.tvNextPayDate);
         tvNextPayDate.setText(getArguments().getString(getResources().getString(R.string.payDateKey)));
 
+        //open settings fragment
         ImageView imageView = v.findViewById(R.id.imSetting);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +57,7 @@ public class CalendarFragment extends Fragment {
                 }
             }
         });
-
+        //open and pass datekey to the CurrentDate fragment
         CalendarView calendar = v.findViewById(R.id.calendarView);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override

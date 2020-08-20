@@ -6,9 +6,16 @@
      <item>Wednesday</item>
      <item>Thursday</item>
      <item>Friday</item>
-     <item>Saturn</item>
+     <item>Saturday</item>
      <item>Sunday</item>
    </string-array>
+
+    <string-array name="wage_chooser">
+        <item>Reg Hours</item>
+        <item>Ot Hours</item>
+        <item>Sick Hours</item>
+    </string-array>
+
 
     <string-array name="daysPerPeriod_array">
       <item>7</item>

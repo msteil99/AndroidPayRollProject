@@ -1,21 +1,20 @@
 package com.example.payrollproject;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.Objects;
+
+//todo create a minutes or hours picker to calucate
 
 public class CurrentDateFragment extends Fragment {
 
@@ -59,6 +58,7 @@ public class CurrentDateFragment extends Fragment {
       etCurDateSick.setText(pref.getString(sickHoursKey,"0"));
 
 
+
      Button btnAddHours = v.findViewById(R.id.btnAddHours);
       btnAddHours.setOnClickListener(new View.OnClickListener() {
          @Override
@@ -76,7 +76,7 @@ public class CurrentDateFragment extends Fragment {
                  throw new ClassCastException(Objects.requireNonNull(mHoursChanged).toString()
                          + " must implement OnSelectedListener");
              }
-             //Toast.makeText(getContext(),"saved",Toast.LENGTH_SHORT).show();
+
          }
      });
       return v;
