@@ -11,9 +11,14 @@
    </string-array>
 
     <string-array name="wage_chooser">
-        <item>Reg Hours</item>
-        <item>Ot Hours</item>
-        <item>Sick Hours</item>
+        <item>reg</item>
+        <item>ot</item>
+        <item>sick</item>
+    </string-array>
+
+    <string-array name="am_pm">
+        <item>am</item>
+        <item>pm</item>
     </string-array>
 
 
