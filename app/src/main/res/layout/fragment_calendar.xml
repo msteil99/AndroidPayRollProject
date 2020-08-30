@@ -20,35 +20,35 @@
         android:weekSeparatorLineColor="#4E4D4D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.184"></CalendarView>
+        app:layout_constraintVertical_bias="0.21"></CalendarView>
+
 
     <ImageView
         android:id="@+id/imSetting"
-        android:layout_width="92dp"
-        android:layout_height="45dp"
+        android:layout_width="32dp"
+        android:layout_height="25dp"
         android:tint="@color/customBlack"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/calendarView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.949"
+        app:layout_constraintHorizontal_bias="0.92"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
-        app:srcCompat="@android:drawable/ic_menu_add" />
-
+        app:layout_constraintVertical_bias="0.684"
+        app:srcCompat="@drawable/setti_icon" />
 
     <TextView
         android:id="@+id/tvPayTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="Next Pay Date "
         android:textAllCaps="false"
-        android:textSize="30sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
@@ -56,12 +56,12 @@
         android:id="@+id/tvNextPayDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text=""
-        android:textSize="30sp"
+        android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-smallcaps"
+        android:text=" "
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.527"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPayTitle" />
 
@@ -70,10 +70,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="150dp"
+        android:layout_marginEnd="176dp"
+        android:fontFamily="sans-serif-smallcaps"
         android:inputType="numberDecimal"
         android:text="0"
-        android:fontFamily="sans-serif-smallcaps"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvNextPayDate" />
@@ -85,9 +85,9 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="2dp"
+        android:fontFamily="sans-serif-smallcaps"
         android:text="$"
         android:textSize="24sp"
-        android:fontFamily="sans-serif-smallcaps"
         app:layout_constraintEnd_toStartOf="@+id/tvNextPayNum"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

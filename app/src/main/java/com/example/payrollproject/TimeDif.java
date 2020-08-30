@@ -4,6 +4,7 @@ package com.example.payrollproject;
 *   this is a helper class that calculates the difference between times in 24 hour format producing
 *   decimal where 1 = 1 hour. All range checks are done in CurrentDateFragment.java
 *
+*
 * */
 
 

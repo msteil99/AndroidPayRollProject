@@ -205,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     }
 
     /*Inner class to retrieve user data for the selected date*/
- //todo for this program to work, once one of these is set all of them should be
   class UserData{
 
     private String dateKey,payDate;
