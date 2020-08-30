@@ -21,7 +21,6 @@
         <item>pm</item>
     </string-array>
 
-
     <string-array name="daysPerPeriod_array">
       <item>7</item>
       <item>14</item>
