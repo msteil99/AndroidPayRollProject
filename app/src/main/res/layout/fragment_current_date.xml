@@ -16,10 +16,10 @@
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.445"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.024" />
+        app:layout_constraintVertical_bias="0.023" />
 
     <EditText
         android:id="@+id/etFrmHours"
@@ -142,23 +142,39 @@
 
     <Button
         android:id="@+id/btnAddHours"
-        android:layout_width="89dp"
-        android:layout_height="42dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/btn_custom"
         android:text="Add"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.552"
+        app:layout_constraintHorizontal_bias="0.209"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spWageChooser" />
+
+    <Button
+        android:id="@+id/btnClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="36dp"
+        android:background="@drawable/btn_custom"
+        android:text="Clear"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.018"
+        app:layout_constraintStart_toEndOf="@+id/btnAddHours"
         app:layout_constraintTop_toBottomOf="@+id/spWageChooser" />
 
     <TextView
         android:id="@+id/textView44"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="48dp"
         android:text="Regular:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -168,8 +184,8 @@
         android:id="@+id/textView45"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="16dp"
         android:text="Over Time:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -179,8 +195,8 @@
         android:id="@+id/textView46"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="16dp"
         android:text="Sick:"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -223,7 +239,7 @@
         android:id="@+id/textView50"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="136dp"
         android:layout_marginTop="16dp"
         android:text="Day Total:"
         android:textSize="18sp"
@@ -240,6 +256,17 @@
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textView50"
         app:layout_constraintTop_toBottomOf="@+id/tvSickHours" />
+
+    <Button
+        android:id="@+id/btnFinish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="Finish"
+        android:background="@drawable/btn_custom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView50" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

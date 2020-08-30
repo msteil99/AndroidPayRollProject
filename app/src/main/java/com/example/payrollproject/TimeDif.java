@@ -21,7 +21,7 @@ public class TimeDif {
      minDif();
     }
 
-    public double getDif(){
+    public double getHourDif(){
         return hourFinal + minFinal;
     }
 

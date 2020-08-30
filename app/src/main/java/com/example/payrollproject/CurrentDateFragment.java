@@ -42,45 +42,43 @@ public class CurrentDateFragment extends Fragment {
                              Bundle savedInstanceState) {
 
      curDate = getArguments().getString(getResources().getString(R.string.dateKey));
-     Log.d("curdatekey", curDate); //works
      //the inflater object inflates a view that has not yet been created where is the findViewByID has already been inflated
      View v = inflater.inflate(R.layout.fragment_current_date, container, false);
      TextView tvCurDate = v.findViewById(R.id.tvCurrentDate);
      tvCurDate.setText(curDate);
+
      //spinner for am or pm
      final Spinner spFrmTime = v.findViewById(R.id.spFrmTime);
      final Spinner spToTime = v.findViewById(R.id.spToTime);
      final ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity(),
-           R.array.am_pm, android.R.layout.simple_spinner_dropdown_item);
-      spFrmTime.setAdapter(adapter1);
-      spToTime.setAdapter(adapter1);
-     //spinner for hourly rate type
+              R.array.am_pm, android.R.layout.simple_spinner_dropdown_item);
+           spFrmTime.setAdapter(adapter1);
+           spToTime.setAdapter(adapter1);
+           //spinner for hourly rate type
      final Spinner spWageRate = v.findViewById(R.id.spWageChooser);
      final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-           R.array.wage_chooser, android.R.layout.simple_spinner_dropdown_item);
-        spWageRate.setAdapter(adapter);
+             R.array.wage_chooser, android.R.layout.simple_spinner_dropdown_item);
+           spWageRate.setAdapter(adapter);
 
-      final EditText etFrmHour = v.findViewById(R.id.etFrmHours);
-      final EditText etFrmMin = v.findViewById(R.id.etFrmMin);
-      final EditText etToHour = v.findViewById(R.id.etToHours);
-      final EditText etToMin = v.findViewById(R.id.etToMin);
-
-
-
-     // final TextView etCurDateReg = v.findViewById(R.id.tvRegHours);
-    // final TextView etCurDateOt = v.findViewById(R.id.tvOtHours);
-    // final TextView etCurDateSick = v.findViewById(R.id.tvSickHours);
+     final TextView tvRegNum = v.findViewById(R.id.tvRegHours);
+     final TextView tvOtNum  = v.findViewById(R.id.tvOTHours);
+     final TextView tvSickNum = v.findViewById(R.id.tvSickHours);
      //instantiate keys unique to this date
-    // final String regHoursKey = curDate + "reg";
-     //final String otHoursKey = curDate + "ot";
-     //final String sickHoursKey = curDate + "sick";
+     final String regHoursKey = curDate + "reg";
+     final String otHoursKey = curDate + "ot";
+     final String sickHoursKey = curDate + "sick";
 
-     //This will set the text if user has already placed a value, placeing the zero ensures a non null value
+     final EditText etFrmHour = v.findViewById(R.id.etFrmHours);
+     final EditText etFrmMin = v.findViewById(R.id.etFrmMin);
+     final EditText etToHour = v.findViewById(R.id.etToHours);
+     final EditText etToMin = v.findViewById(R.id.etToMin);
+
+
+     //This will set the text if user has already placed a value
      SharedPreferences pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPayRoll),Context.MODE_PRIVATE);
-    //  tvCurDateReg.setText(pref.getString(regHoursKey, "0"));
-    //  tvCurDateOt.setText(pref.getString(otHoursKey,"0"));
-     // tvCurDateSick.setText(pref.getString(sickHoursKey,"0"));
-
+     tvRegNum.setText(pref.getString(regHoursKey, "0"));
+     tvOtNum.setText(pref.getString(otHoursKey,"0"));
+     tvSickNum.setText(pref.getString(sickHoursKey,"0"));
 
      //below will be a different Fragment
      Button btnAddHours = v.findViewById(R.id.btnAddHours);
@@ -117,22 +115,51 @@ public class CurrentDateFragment extends Fragment {
                   if (toHour == 12)
                       toHour = 0;
               }
-
               //helper class to calculate difference in hours
               TimeDif dif = new TimeDif(frmHour, frmMin, toHour, toMin);
               //Toast.makeText(getActivity(), dif.getDif() + " hours", Toast.LENGTH_LONG).show();
-
+              String num = String.valueOf(dif.getHourDif());
               //print hours
               String wageRate = spWageRate.getSelectedItem().toString();
                 if(wageRate.contains("reg")){
-                  Toast.makeText(getActivity(),dif.getDif() + " reg hours",Toast.LENGTH_LONG).show();
+                 tvRegNum.setText(num);
                 }
                 if(wageRate.contains("ot")){
-                Toast.makeText(getActivity(),dif.getDif() + " ot hours",Toast.LENGTH_LONG).show();
+                 tvOtNum.setText(num);
                 }
                 else if(wageRate.contains("sick")){
-                 Toast.makeText(getActivity(),dif.getDif() + " sick hours",Toast.LENGTH_LONG).show();
+                 tvSickNum.setText(num);
                }
+          }
+      });
+
+      Button btnClear = v.findViewById(R.id.btnClear);
+      btnClear.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              tvRegNum.setText("0");
+              tvOtNum.setText("0");
+              tvSickNum.setText("0");
+          }
+      });
+
+      Button btnFinish = v.findViewById(R.id.btnFinish);
+      btnFinish.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              SharedPreferences.Editor edCurDate = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit();
+              edCurDate.putString(regHoursKey, tvRegNum.getText().toString());
+              edCurDate.putString(otHoursKey, tvOtNum.getText().toString());
+              edCurDate.putString(sickHoursKey, tvSickNum.getText().toString());
+              edCurDate.apply();
+
+              try {
+                  mHoursChanged = (OnHoursChangedListener) getActivity();
+                  Objects.requireNonNull(mHoursChanged).onHoursChanged(curDate);
+              } catch (ClassCastException e) {
+                  throw new ClassCastException(Objects.requireNonNull(mHoursChanged).toString()
+                          + " must implement OnSelectedListener");
+              }
           }
       });
 
