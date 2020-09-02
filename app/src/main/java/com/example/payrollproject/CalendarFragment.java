@@ -14,6 +14,7 @@ import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 public class CalendarFragment extends Fragment {

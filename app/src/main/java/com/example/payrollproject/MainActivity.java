@@ -23,10 +23,10 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     private float payPerTotal;
     private UserData userData;
 
-    //todo check rounding errors with all math functions + limit amount of decimals
+    //todo check rounding errors with all math functions + format decimals
     //todo on first init of application settings should be applied first or application crashes
-    //todo create a custom time spinner for the xmls so the user can choose a time
-    // need to switch all math functions to calculate use time.
+    //todo sum total for year in date changed and settings changed
+
 
    /*function gets previous user data for current date and pay period then
       passes to the calendar fragment for display
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         Log.d("dateoncreate", userData.getDateKey());//works
         Log.d("prnumoncreate", String.valueOf(userData.getPayRollNum()));
         Log.d("paypertotaloncreate", String.valueOf(userData.getPayRollTotal()));
-
+        //retrieve current pay period data and pass to fragment
         Bundle args = new Bundle();
         args.putString(getResources().getString(R.string.payPeriodTotalKey), String.valueOf(userData.getPayRollTotal()));
         args.putString(getResources().getString(R.string.payDateKey),userData.getPayDate());
@@ -55,11 +55,10 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
                 .add(R.id.flFragment, calendarFragment)
                 .commit();
     }
-    //user selects a date that will pass a date key and open fragment with the selected dates information
+    //once user selects date in calendar pass the specific datekey to fragment
     public void onDateSelected(String dateKey) {
         CurrentDateFragment dateFragment = new CurrentDateFragment();
         Bundle args = new Bundle();
-
         args.putString("dateKey", dateKey);
         dateFragment.setArguments(args);
 
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     public void onSettingsChanged() {
         //retrieve any previous user data
         getPayRollSeti();
-        //first and last day of the pay period
+        //first and last day of the pay period, this is a test, would like to get value from setitngs
         LocalDate dateStart = LocalDate.of(2020, 7, 10); //parse value from settings
         LocalDate dateEnd = LocalDate.of(2020, 12, 25); // parse value from settings
 
@@ -92,10 +91,9 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         int payRollNum = userData.getPayRollNum();
         Log.d("payrollnumstart", String.valueOf(payRollNum));
 
-        //sum total for payroll //todo sum total for year
+        //sum total for payroll
         float sum = 0;
         int daysPerCycle = 14; //get value from settings
-        //todo get and set paydate functions
         edMain= Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit());
         while (dateStart.isBefore(dateEnd)) {
             for (int i = 0; i < daysPerCycle; i++) {
@@ -128,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         savePayRollTotal(dateKey,payRollTotal);
 
         //reset user data here, this should all be done in userdata class
-        userData = new UserData(dateKey);
+        //userData = new UserData(dateKey);
 
         Log.d("hcNewTotal ", String.valueOf(payRollTotal));
 
@@ -144,15 +142,15 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
          Toast.makeText(this,"Saved" ,Toast.LENGTH_LONG).show();
     }
 
-    /*function to save total for the day, gets all previous values from settings and uses PayRollTrack object to
-     * compute the daily value*/
-    //todo create seperate save day function for settings
+    /*function to save total for the day, gets values from settings and uses PayRollTrack object to
+     * compute the daily value, saves new day to Shared Pref*/
     public void saveDayTotal(String dateKey){
         SharedPreferences.Editor edSaveDay;
 
         getPayRollSeti();
 
-        String regHours = sharedPrefPay.getString(dateKey + "reg", "0"); //this works String regHoursKey = curDate + "reg";
+
+        String regHours = sharedPrefPay.getString(dateKey + "reg", "0");  //this should be dateKey then Re
         String otHours = sharedPrefPay.getString(dateKey + "ot", "0");
         String sickHours = sharedPrefPay.getString(dateKey + "sick", "0");
 

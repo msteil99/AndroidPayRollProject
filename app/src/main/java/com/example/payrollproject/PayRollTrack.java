@@ -4,6 +4,7 @@ import android.icu.util.LocaleData;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 
 public class PayRollTrack {
@@ -13,7 +14,6 @@ public class PayRollTrack {
     private double sickPay, dayTotal;
     private double regWorked, otWorked, sickWorked;
     private LocalDate frmDate, toDate;
-
     //todo function to say if setPayPeriod, getPayPeriod, isCurrentPayPeriod(LocalDate date).
 
 

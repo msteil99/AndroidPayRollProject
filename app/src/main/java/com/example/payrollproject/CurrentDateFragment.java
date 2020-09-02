@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -162,50 +161,10 @@ public class CurrentDateFragment extends Fragment {
 
       return v;
     }
-
-
-
-
-
-
 }
 
 
 
-// String wageRate = spWageRate.getSelectedItem().toString();
-                  //if(wageRate.contains("reg")){
-                   //   Toast.makeText(getActivity(),endTime + "reg hours",Toast.LENGTH_LONG).show();
-                 // }
-                 // if(wageRate.contains("ot")){
-                   //   Toast.makeText(getActivity(),endTime + " ot hours",Toast.LENGTH_LONG).show();
-                 // }
-                 // else if(wageRate.contains("sick")){
-                   //   Toast.makeText(getActivity(),endTime + "sick hours",Toast.LENGTH_LONG).show();
-                  //}
 
 
 
-
-
-
-
- //this will be the OnDone button
- /* btnAddHours.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View view) {
-         SharedPreferences.Editor edCurDate = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit();
-       //  edCurDate.putString(regHoursKey, etCurDateReg.getText().toString());
-        // edCurDate.putString(otHoursKey,etCurDateOt.getText().toString());
-        // edCurDate.putString(sickHoursKey,etCurDateSick.getText().toString());
-         edCurDate.apply();
-
-             try {
-                 mHoursChanged = (OnHoursChangedListener) getActivity();
-                 Objects.requireNonNull(mHoursChanged).onHoursChanged(curDate);
-             } catch (ClassCastException e) {
-                 throw new ClassCastException(Objects.requireNonNull(mHoursChanged).toString()
-                         + " must implement OnSelectedListener");
-             }
-
-         }
-     }); */
