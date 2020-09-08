@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,19 +37,19 @@ public class SettingsFragment extends Fragment {
         final EditText etSickPercentage = v.findViewById(R.id.etSickPercent);
         final EditText etDaysPerCycle = v.findViewById(R.id.etDaysPerCycle);
 
-        //lets create an on datechanged picker
+
         SharedPreferences pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti),Context.MODE_PRIVATE);
         etHourlyRate.setText(pref.getString(getResources().getString(R.string.hourlyRateKey), "0"));
         etOtRate.setText(pref.getString(getResources().getString(R.string.otRateKey),"0"));
         etSickPercentage.setText(pref.getString(getResources().getString(R.string.sickPercentKey),"0"));
         etDaysPerCycle.setText((pref.getString(getResources().getString(R.string.daysPerCycleKey),"0")));
 
-        //set all to string or to much work
         Button btnSetAll = v.findViewById(R.id.btnSetAll);
-        //saves user entered text
+        //save user entered text
         btnSetAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 SharedPreferences.Editor edSet = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE).edit();
                 edSet.putString(getString(R.string.hourlyRateKey), etHourlyRate.getText().toString());
                 edSet.putString(getString(R.string.otRateKey), etOtRate.getText().toString());

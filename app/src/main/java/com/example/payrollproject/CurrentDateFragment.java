@@ -68,9 +68,9 @@ public class CurrentDateFragment extends Fragment {
      final EditText etToMin = v.findViewById(R.id.etToMin);
 
      //instantiate keys unique to this date
-     final String regHoursKey = curDate + "reg";
-     final String otHoursKey = curDate + "ot";
-     final String sickHoursKey = curDate + "sick";
+     final String regHoursKey = curDate + R.string.regHoursKey;
+     final String otHoursKey = curDate + R.string.otHoursKey;
+     final String sickHoursKey = curDate + R.string.sickHoursKey;
 
      //This will set the text if user has previous saved value
      SharedPreferences pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPayRoll),Context.MODE_PRIVATE);
@@ -139,17 +139,20 @@ public class CurrentDateFragment extends Fragment {
           }
       });
       //save results and return to main frag
+
+
+
       Button btnSave = v.findViewById(R.id.btnSaveDate);
       btnSave.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
               SharedPreferences.Editor edCurDate = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit();
-              edCurDate.putString(regHoursKey, tvRegNum.getText().toString());
-              edCurDate.putString(otHoursKey, tvOtNum.getText().toString());
-              edCurDate.putString(sickHoursKey, tvSickNum.getText().toString());
-              edCurDate.apply();
+                  edCurDate.putString(regHoursKey, tvRegNum.getText().toString());
+                  edCurDate.putString(otHoursKey, tvOtNum.getText().toString());
+                  edCurDate.putString(sickHoursKey, tvSickNum.getText().toString());
+                  edCurDate.apply();
 
-              try {
+                  try {
                   mHoursChanged = (OnHoursChangedListener) getActivity();
                   Objects.requireNonNull(mHoursChanged).onHoursChanged(curDate);
               } catch (ClassCastException e) {

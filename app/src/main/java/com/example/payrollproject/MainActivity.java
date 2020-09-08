@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     //todo check rounding errors with all math functions + format decimals
     //todo on first init of application settings should be applied first or application crashes
     //todo sum total for year in date changed and settings changed
+    //tod
 
 
    /*function gets previous user data for current date and pay period then
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         while (dateStart.isBefore(dateEnd)) {
             for (int i = 0; i < daysPerCycle; i++) {
                 saveDayTotal(userData.getDateKey()); //saves and track hours worked for the day
-                sum+=Double.parseDouble(getDayTotal(userData.getDateKey())); //sum each day in pay period
+                sum+=Float.parseFloat(getDayTotal(userData.getDateKey())); //sum each day in pay period
                 edMain.putInt(getResources().getString(R.string.payPeriodNumKey) + userData.getDateKey(),  payRollNum); //payrollnum associated with date
                 Log.d("payrollnumloop", String.valueOf(payRollNum)); //correct
                 dateStart = dateStart.plusDays(1);
@@ -150,13 +151,13 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         getPayRollSeti();
 
 
-        String regHours = sharedPrefPay.getString(dateKey + "reg", "0");  //this should be dateKey then Re
-        String otHours = sharedPrefPay.getString(dateKey + "ot", "0");
-        String sickHours = sharedPrefPay.getString(dateKey + "sick", "0");
+        String regHours = sharedPrefPay.getString(dateKey + R.string.regHoursKey, "0");  //this should be dateKey then Re
+        String otHours = sharedPrefPay.getString(dateKey + R.string.otHoursKey, "0");
+        String sickHours = sharedPrefPay.getString(dateKey + R.string.sickHoursKey, "0");
 
-        payRollTrack.setRegWorked(Double.parseDouble(Objects.requireNonNull(regHours)));
-        payRollTrack.setOtWorked(Double.parseDouble(Objects.requireNonNull(otHours)));
-        payRollTrack.setSickWorked(Double.parseDouble(Objects.requireNonNull(sickHours)));
+        payRollTrack.setRegWorked(Float.parseFloat(Objects.requireNonNull(regHours)));
+        payRollTrack.setOtWorked(Float.parseFloat(Objects.requireNonNull(otHours)));
+        payRollTrack.setSickWorked(Float.parseFloat(Objects.requireNonNull(sickHours)));
 
         edSaveDay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit());
         edSaveDay.putString("DayTotal" + dateKey, String.valueOf(payRollTrack.getDayTotal())).commit();
@@ -188,9 +189,9 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         Log.d("sickrate", Objects.requireNonNull(sickRate));
 
         payRollTrack = new PayRollTrack(); //
-        payRollTrack.setHourlyRate(Double.parseDouble(Objects.requireNonNull(regRate)));
-        payRollTrack.setOverTimeRate(Double.parseDouble(Objects.requireNonNull(otRate)));
-        payRollTrack.setPayPercent(Double.parseDouble(Objects.requireNonNull(sickRate)));
+        payRollTrack.setHourlyRate(Float.parseFloat(Objects.requireNonNull(regRate)));
+        payRollTrack.setOverTimeRate(Float.parseFloat(Objects.requireNonNull(otRate)));
+        payRollTrack.setPayPercent(Float.parseFloat(Objects.requireNonNull(sickRate)));
     }
 
     public void onBackPressed() {
@@ -270,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
   }
 
   private void setData(LocalDate date){
-      setDateKey(dateKey = date.getYear() + "-" + date.getMonthValue() + "-" + date.getDayOfMonth()); //getDateKey(Local Date)
+      setDateKey(dateKey = date.getYear() + "-" + date.getMonthValue() + "-" + date.getDayOfMonth());
       payRollNum =
               sharedPrefPay.getInt(getResources().getString(R.string.payPeriodNumKey) + dateKey, 0);
       setPayRollNum(payRollNum);
@@ -278,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
               sharedPrefPay.getFloat(getResources().getString(R.string.payPeriodTotalKey) + payRollNum, 0);
       setPayRollTotal(payPerTotal);
       payDate=
-              sharedPrefPay.getString(getResources().getString(R.string.payDateKey)+payRollNum,"Date");
+              sharedPrefPay.getString(getResources().getString(R.string.payDateKey)+ payRollNum,"");
       setPayDate(payDate);
   }
 
