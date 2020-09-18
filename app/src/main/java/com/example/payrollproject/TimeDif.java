@@ -8,6 +8,8 @@ package com.example.payrollproject;
 * */
 
 
+import java.text.DecimalFormat;
+
 public class TimeDif {
 
     private int frmHour, toHour;
@@ -35,7 +37,7 @@ public class TimeDif {
       }
     }
 
-    private void minDif(){
+    private String minDif(){
      while(frmMin != toMin){
       if(toMin > frmMin){
        toMin --;
@@ -46,7 +48,8 @@ public class TimeDif {
        minFinal++;
       }
      }
-     minFinal /= 60;
+     DecimalFormat df = new DecimalFormat(".####");
+     return df.format(minFinal /= 60);
     }
 
 }

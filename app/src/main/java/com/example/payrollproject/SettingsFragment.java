@@ -33,15 +33,11 @@ public class SettingsFragment extends Fragment {
 
         View v= inflater.inflate(R.layout.fragment_settings, container, false);
         final EditText etHourlyRate = v.findViewById(R.id.etHourlyRate);
-        final EditText etOtRate = v.findViewById(R.id.etOTRate);
-        final EditText etSickPercentage = v.findViewById(R.id.etSickPercent);
         final EditText etDaysPerCycle = v.findViewById(R.id.etDaysPerCycle);
 
-
+        //retrive previous user values
         SharedPreferences pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti),Context.MODE_PRIVATE);
         etHourlyRate.setText(pref.getString(getResources().getString(R.string.hourlyRateKey), "0"));
-        etOtRate.setText(pref.getString(getResources().getString(R.string.otRateKey),"0"));
-        etSickPercentage.setText(pref.getString(getResources().getString(R.string.sickPercentKey),"0"));
         etDaysPerCycle.setText((pref.getString(getResources().getString(R.string.daysPerCycleKey),"0")));
 
         Button btnSetAll = v.findViewById(R.id.btnSetAll);
@@ -49,11 +45,9 @@ public class SettingsFragment extends Fragment {
         btnSetAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //todo place if != null
                 SharedPreferences.Editor edSet = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE).edit();
                 edSet.putString(getString(R.string.hourlyRateKey), etHourlyRate.getText().toString());
-                edSet.putString(getString(R.string.otRateKey), etOtRate.getText().toString());
-                edSet.putString(getString(R.string.sickPercentKey), etSickPercentage.getText().toString());
                 edSet.putString(getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
                 edSet.apply();
 
@@ -64,7 +58,7 @@ public class SettingsFragment extends Fragment {
                     throw new ClassCastException(Objects.requireNonNull(onSettingsChangedListener).toString()
                             + " must implement OnSelectedListener");
                 }
-                Toast.makeText(getContext(),"Saved",Toast.LENGTH_LONG).show();
+
             }
         });
         return v;

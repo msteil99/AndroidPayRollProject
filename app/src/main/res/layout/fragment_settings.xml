@@ -9,69 +9,62 @@
 
     <TextView
         android:id="@+id/tvHourlyRate"
-        android:layout_width="189dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="64dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="Hourly Rate"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.117" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvOtRate"
-        android:layout_width="189dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="35dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="OT Rate"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvHourlyRate"
-        app:layout_constraintVertical_bias="0.087" />
+        app:layout_constraintTop_toBottomOf="@+id/tvHourlyRate" />
 
     <TextView
         android:id="@+id/tvSickPercent"
-        android:layout_width="189dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="35dp"
         android:fontFamily="sans-serif-smallcaps"
-        android:text="Sick Percentage"
+        android:text="Sick Rate"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOtRate"
-        app:layout_constraintVertical_bias="0.094" />
+        app:layout_constraintTop_toBottomOf="@+id/tvOtRate" />
 
     <TextView
         android:id="@+id/tvPayCycle"
-        android:layout_width="184dp"
-        android:layout_height="48dp"
+        android:layout_width="168dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="35dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="Days Per Cycle"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.118"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSickPercent"
-        app:layout_constraintVertical_bias="0.104" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSickPercent" />
 
     <EditText
         android:id="@+id/etHourlyRate"
-        android:layout_width="102dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="92dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="58dp"
         android:backgroundTint="@color/colorText"
         android:ems="10"
         android:hint="0"
@@ -79,16 +72,16 @@
         android:textColor="@color/colorText"
         android:textColorHighlight="@color/colorText"
         android:textColorHint="@color/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/tvHourlyRate"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etOTRate"
-        android:layout_width="102dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="52dp"
+        android:layout_width="92dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/colorText"
         android:ems="10"
         android:hint="0"
@@ -97,16 +90,16 @@
         android:textColorHighlight="@color/colorText"
         android:textColorHint="@color/colorText"
         android:textColorLink="@color/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/tvOtRate"
         app:layout_constraintTop_toBottomOf="@+id/etHourlyRate" />
 
     <EditText
         android:id="@+id/etSickPercent"
-        android:layout_width="102dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="92dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/colorText"
         android:ems="10"
         android:hint="0"
@@ -114,16 +107,16 @@
         android:textColor="@color/colorText"
         android:textColorHighlight="@color/colorText"
         android:textColorHint="@color/colorText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/tvSickPercent"
         app:layout_constraintTop_toBottomOf="@+id/etOTRate" />
 
     <EditText
         android:id="@+id/etDaysPerCycle"
-        android:layout_width="102dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="92dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/colorText"
         android:ems="10"
         android:hint="0"
@@ -131,25 +124,22 @@
         android:textColor="@color/colorText"
         android:textColorHighlight="@color/colorText"
         android:textColorHint="@color/colorText"
-        app:layout_constraintBottom_toTopOf="@+id/btnSetAll"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/tvPayCycle"
-        app:layout_constraintTop_toBottomOf="@+id/etSickPercent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/etSickPercent" />
 
     <Button
         android:id="@+id/btnSetAll"
-        android:layout_width="117dp"
-        android:layout_height="67dp"
-        android:layout_marginStart="144dp"
+        android:layout_width="86dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="172dp"
         android:background="@drawable/btn_custom"
         android:text="+"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPayCycle"
-        app:layout_constraintVertical_bias="0.383" />
+        app:layout_constraintVertical_bias="0.19" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

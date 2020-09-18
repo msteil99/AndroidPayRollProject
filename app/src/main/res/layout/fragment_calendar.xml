@@ -12,19 +12,16 @@
         android:id="@+id/calendarView"
         android:layout_width="308dp"
         android:layout_height="341dp"
-        android:background="@color/colorBackground"
+
+        android:backgroundTint="@color/colorCalendar"
         android:dateTextAppearance="@style/CalenderViewDateCustomText"
         android:focusedMonthDateColor="@color/colorText"
-        android:foregroundTint="#DE090909"
+        android:foregroundTint="@color/colorCalendar"
         android:maxDate="1/1/2024"
         android:minDate="1/1/2019"
-        android:selectedWeekBackgroundColor="@color/colorText"
         android:theme="@style/CalenderViewCustom"
-        android:unfocusedMonthDateColor="@color/colorText"
         android:visibility="visible"
         android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
-        android:weekNumberColor="@color/colorText"
-        android:weekSeparatorLineColor="@color/colorText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -95,5 +92,17 @@
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPayTitle" />
+
+    <Button
+        android:id="@+id/btnPayList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:background="@drawable/btn_custom"
+        android:text="History"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintVertical_bias="0.466" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

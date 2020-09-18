@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,11 +21,12 @@ import java.util.Calendar;
 public class CalendarFragment extends Fragment {
 
 
-  private OnSelectedListener mdateSelected;
+  private OnSelectedListener onSelected;
 
     public interface OnSelectedListener {
         void onDateSelected(String key);
         void onSettingsSelected();
+        void onPayListSelected();
     }
 
     @Override
@@ -50,10 +52,10 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    mdateSelected = (OnSelectedListener)getActivity();
-                    mdateSelected.onSettingsSelected();
+                    onSelected = (OnSelectedListener)getActivity();
+                    onSelected.onSettingsSelected();
                 } catch (ClassCastException e) {
-                    throw new ClassCastException(mdateSelected.toString()
+                    throw new ClassCastException(onSelected.toString()
                             + " must implement OnSelectedListener");
                 }
             }
@@ -66,14 +68,31 @@ public class CalendarFragment extends Fragment {
                 //month+1 so Jan = 1
                 String dateKey = year + "-" + (month+1) + "-" + day;
                 try {
-                    mdateSelected = (OnSelectedListener)getActivity();
-                    mdateSelected.onDateSelected(dateKey);
+                    onSelected = (OnSelectedListener)getActivity();
+                    onSelected.onDateSelected(dateKey);
                 } catch (ClassCastException e) {
-                    throw new ClassCastException(mdateSelected.toString()
+                    throw new ClassCastException(onSelected.toString()
                             + " must implement OnSelectedListener");
                 }
             }
         });
+
+        Button btn = v.findViewById(R.id.btnPayList);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    onSelected = (OnSelectedListener)getActivity();
+                    onSelected.onPayListSelected();
+                } catch (ClassCastException e) {
+                    throw new ClassCastException(onSelected.toString()
+                            + " must implement OnSelectedListener");
+                }
+            }
+        });
+
+
+
         return v;
     }
 }

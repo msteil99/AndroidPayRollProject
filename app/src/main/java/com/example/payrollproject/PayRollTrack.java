@@ -1,23 +1,16 @@
 package com.example.payrollproject;
 
-import android.icu.util.LocaleData;
-import android.os.Build;
-import androidx.annotation.RequiresApi;
-
 import java.text.DecimalFormat;
-import java.time.LocalDate;
+
 
 public class PayRollTrack {
 
-    private float hourlyRate,otRate;
+    private float hourlyRate,otRate,otDoubleRate;
     private float sickPay, dayTotal;
-    private float regWorked, otWorked, sickWorked;
-    //todo function to say if setPayPeriod, getPayPeriod, isCurrentPayPeriod(LocalDate date).
+    private float regWorked, otWorked, otDoubleWorked, sickWorked;
 
+    public PayRollTrack(){ }
 
-    public PayRollTrack(){}
-
-    //set/get user income per hour
     public void setHourlyRate(float hourlyRate){
         this.hourlyRate = hourlyRate;
     }
@@ -41,32 +34,29 @@ public class PayRollTrack {
         return otRate;
     }
 
-    //this will be reg worked per day
-    public void setRegWorked(float regWorked){
-        this.regWorked = regWorked;
-    }
-    public float getRegWorked(){
-        return regWorked;
-    }
+    public void setDoubleTimeRate(){ otDoubleRate = 2.0f * hourlyRate;}
+    public float getOtDoubleRate(){return 2.0f * hourlyRate; }
 
-    public void setOtWorked(float otWorked){
-        this.otWorked = otWorked;
-    }
-    public float getOtWorked(){
-        return otWorked;
-    }
+    //this will be reg worked per day
+    public void setRegWorked(float regWorked){ this.regWorked = regWorked; }
+    public float getRegWorked(){ return regWorked; }
+
+    public void setOtWorked(float otWorked){ this.otWorked = otWorked; }
+    public float getOtWorked(){ return otWorked; }
     //return the hours of OT worked in a day
 
-    public float getSickWorked(){
-        return sickWorked;
-    }
-    public void setSickWorked(float sickWorked){
-        this.sickWorked = sickWorked;
-    }
+    public void setOtDouble(float otDoubleWorked){this.otDoubleWorked = otDoubleWorked; }
+    public float getOtDouble(){ return otDoubleWorked; }
 
-    public float getDayTotal(){
-        dayTotal =  Math.round((regWorked * hourlyRate)+(otWorked * otRate)+(sickPay * sickWorked));
-        return dayTotal;
+    public float getSickWorked(){ return sickWorked; }
+
+    public void setSickWorked(float sickWorked){ this.sickWorked = sickWorked; }
+
+    public String getDayTotal(){
+        DecimalFormat df = new DecimalFormat(".###");
+
+        dayTotal =  (regWorked * hourlyRate)+(otWorked * otRate)+(sickPay * sickWorked) + (otDoubleWorked * otDoubleRate);
+        return df.format(dayTotal);
     }
 }
 

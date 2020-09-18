@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#E2A9F0F4</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimaryDark">#54BCFD</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="colorBackground">#72C6F6FA</color>
-    <color name="colorCalendar">#AEC6FAF9</color>
-    <color name="colorText">#012355</color>
+    <color name="colorBackground">#8C1C4661</color>
+    <color name="colorCalendar">#C51C4661</color>
+    <color name="colorText">#E8EEF0F3</color>
     <color name="colorButton">#AEDAF8</color>
     <color name="colorTextBackGround">#3498DB</color>
-
-
-
-
+    <color name ="colorGradStart">#C51E5171</color>
+    <color name="colorGradend">#0C56AC</color>
 </resources>

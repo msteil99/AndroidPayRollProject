@@ -8,10 +8,14 @@
     <string name="payPeriodNumKey">payPerNumKey</string>
     <string name="payDateKey">payDateKey</string>
     <string name="dateKey">dateKey</string>
-    <string name = "regHoursKey">regKey</string>
-    <string name = "otHoursKey">otKey</string>
-    <string name = "doubleHoursKey">doubleKey</string>
-    <string name = "sickHoursKey">regKey</string>
+    <string name="regHoursKey">regKey</string>
+    <string name="otHoursKey">otKey</string>
+    <string name="doubleHoursKey">doubleKey</string>
+    <string name="sickHoursKey">regKey</string>
     <string name="prefSeti">prefSeti</string>
     <string name="prefPayRoll">prefPayRoll</string>
+    <string name= "prefPrintPay">prefPrintPay</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
