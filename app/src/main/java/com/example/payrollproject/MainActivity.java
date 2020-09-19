@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
 
         //applies all values associated with the current date
         userData = new UserData(LocalDate.now());
-
-
         //instantiate previous settings data
         sharedPrefSeti = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE));
 
@@ -128,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         edMain.apply();
 
         //pass text and current view
-        inflateToast("Saved", this.findViewById(android.R.id.content));
+        customToast("Saved", this.findViewById(android.R.id.content));
     }
      //todo Toast to show day total saved
     public void onHoursChanged(String dateKey) {
@@ -158,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
          fragTrans.replace(R.id.flFragment, calendarFragment).commit();
 
          //pass text and current view
-         inflateToast(getDayTotal(dateKey) + " Saved", this.findViewById(android.R.id.content));
+         customToast(getDayTotal(dateKey) + " Saved", this.findViewById(android.R.id.content));
     }
 
     //save new pay roll list, opened by PayListFragment
@@ -226,8 +224,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     }
 
     //custom toast to display near the bottom of the screen
-    public void inflateToast(String text , View v){
-
+    public void customToast(String text , View v){
         //int position = v.getHeight();
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.toast_custom,

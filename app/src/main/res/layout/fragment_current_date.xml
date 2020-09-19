@@ -13,22 +13,23 @@
         android:id="@+id/tvCurrentDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text=""
-        android:textSize="36sp"
+        android:textColor="@color/colorTextLb"
+        android:textSize="40sp"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
+        app:layout_constraintVertical_bias="0.086" />
 
     <EditText
         android:id="@+id/etFrmHours"
         android:layout_width="75dp"
         android:layout_height="63dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/et_custom_time"
         android:ems="10"
         android:gravity="center"
@@ -46,7 +47,7 @@
         android:id="@+id/textView3"
         android:layout_width="11dp"
         android:layout_height="65dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="44dp"
         android:gravity="center"
         android:text=":"
         android:textSize="38sp"
@@ -57,7 +58,7 @@
         android:id="@+id/etFrmMin"
         android:layout_width="75dp"
         android:layout_height="63dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/et_custom_time"
         android:ems="10"
         android:gravity="center"
@@ -72,8 +73,10 @@
         android:id="@+id/spFrmTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="48dp"
         android:backgroundTint="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/etFrmMin"
         app:layout_constraintTop_toBottomOf="@+id/etToMin" />
 
@@ -81,20 +84,23 @@
         android:id="@+id/spToTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="45dp"
         android:backgroundTint="@color/colorText"
 
         android:foregroundTint="@color/colorText"
         android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/etToMin"
         app:layout_constraintTop_toBottomOf="@+id/tvCurrentDate" />
+
 
     <EditText
         android:id="@+id/etToHours"
         android:layout_width="75dp"
         android:layout_height="63dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="45dp"
         android:background="@drawable/et_custom_time"
         android:ems="10"
         android:gravity="center"
@@ -113,7 +119,7 @@
         android:id="@+id/etToMin"
         android:layout_width="75dp"
         android:layout_height="63dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="45dp"
         android:background="@drawable/et_custom_time"
         android:ems="10"
         android:gravity="center"
@@ -131,7 +137,7 @@
         android:id="@+id/textView6"
         android:layout_width="11dp"
         android:layout_height="65dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="45dp"
         android:gravity="center"
         android:text=":"
         android:textSize="38sp"
@@ -144,7 +150,7 @@
         android:layout_height="54dp"
         android:backgroundTint="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -152,13 +158,13 @@
         android:id="@+id/btnAddHours"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="36dp"
         android:background="@drawable/btn_custom"
         android:text="Add"
+        android:textColor="@color/colorTextLb"
         android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/btnClear"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.963"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spWageChooser" />
 
@@ -166,113 +172,128 @@
         android:id="@+id/btnClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginEnd="80dp"
         android:background="@drawable/btn_custom"
         android:text="Clear"
-        android:textSize="16sp"
+        android:textColor="@color/colorTextLb"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spWageChooser" />
 
-    <TextView
-        android:id="@+id/textView44"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="32dp"
-        android:text="Regular:"
-        android:textSize="18sp"
+        android:layout_marginTop="44dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddHours" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAddHours">
 
-    <TextView
-        android:id="@+id/textView45"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="16dp"
-        android:text="Over Time:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView44" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textView46"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="188dp"
-        android:layout_marginTop="16dp"
-        android:text="Sick:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView45" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:text="Reg Hours"
+                android:textColor="@color/colorTextLb"></TextView>
 
-    <TextView
-        android:id="@+id/tvRegHours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="32dp"
-        android:text="0"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView44"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddHours" />
+            <TextView
+                android:id="@+id/tvRegHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/colorTextLb"></TextView>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvOTHours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
-        android:text="0"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView45"
-        app:layout_constraintTop_toBottomOf="@+id/tvRegHours" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tvSickHours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
-        android:text="0"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView46"
-        app:layout_constraintTop_toBottomOf="@+id/tvOTHours" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="7dp"
+                android:text="Over Time"
+                android:textColor="@color/colorTextLb"></TextView>
 
-    <TextView
-        android:id="@+id/textView50"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="16dp"
-        android:text="Day Total:"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView46" />
+            <TextView
+                android:id="@+id/tvOtHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/colorTextLb"></TextView>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvDayTotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="16dp"
-        android:text="0"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView50"
-        app:layout_constraintTop_toBottomOf="@+id/tvSickHours" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:textColor="@color/colorTextLb">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:text="Sick Hours"
+                android:textColor="@color/colorTextLb"></TextView>
+
+            <TextView
+                android:id="@+id/tvSickHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/colorTextLb"></TextView>
+        </LinearLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnSaveDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="60dp"
         android:background="@drawable/btn_custom"
         android:text="Save"
+        android:textColor="@color/colorTextLb"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView50" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.457" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:text="Start"
+        android:textColor="@color/colorTextLb"
+        app:layout_constraintEnd_toStartOf="@+id/etToHours"
+        app:layout_constraintHorizontal_bias="0.877"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCurrentDate" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
+        android:text="Finish"
+        android:textColor="@color/colorTextLb"
+        app:layout_constraintEnd_toStartOf="@+id/etFrmHours"
+        app:layout_constraintHorizontal_bias="0.885"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

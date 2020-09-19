@@ -72,7 +72,7 @@ public class CurrentDateFragment extends Fragment {
         spWageRate.setAdapter(adapter);
 
         final TextView tvRegNum = v.findViewById(R.id.tvRegHours);
-        final TextView tvOtNum  = v.findViewById(R.id.tvOTHours);
+        final TextView tvOtNum  = v.findViewById(R.id.tvOtHours);
         final TextView tvSickNum = v.findViewById(R.id.tvSickHours);
 
         final EditText etFrmHour = v.findViewById(R.id.etFrmHours);
