@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity implements CalendarFragment.OnSelectedListener, CurrentDateFragment.OnHoursChangedListener,
         SettingsFragment.OnSettingsChangedListener {
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     private float payPerTotal;
     private UserData userData;
     PayListFragment payListFragment;
+    private LocalDate firstLocalDate;
 
 
     //todo on first init of application settings should be applied first or application crashes
@@ -99,24 +101,28 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     public void onSettingsChanged() {
         //retrieve any previous user data
         getPrevSeti();
-        //first and last day of the pay period, this is a test, would like to get value from setitngs
-        LocalDate dateStart = LocalDate.of(2020, 7, 10); //parse value from settings
-        LocalDate dateEnd = LocalDate.of(2020, 12, 25); // parse value from settings
-        //reset user data to start date, iterate and apply new values
-        userData = new UserData(dateStart);
-        int payRollNum = userData.getPayRollNum();
 
+        //set first Pay period *do not place in getPrevSeti or large loop
+        String firstDate= sharedPrefSeti.getString(getResources().getString(R.string.firstPayPeriod),"2020/01/01");
+        setFirstPayPer(firstDate);
+
+        //first and last day of the pay period, this is a test, would like to get value from setitngs
+        //todo create a get and set date end that is instantiated here or on hours changed
+        LocalDate dateEnd = LocalDate.of(2023, 12, 28); // parse value from settings
+        //reset user data to start date, iterate and apply new values
+        userData = new UserData(firstLocalDate);
+        int payRollNum = userData.getPayRollNum();
         //sum total for payroll
         float sum = 0;
         int daysPerCycle = 14; //get value from settings
         edMain= Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit());
-        while (dateStart.isBefore(dateEnd)) {
+        while (firstLocalDate.isBefore(dateEnd)) {
             for (int i = 0; i < daysPerCycle; i++) {
                 saveDayTotal(userData.getDateKey()); //saves and track hours worked for the day
                 sum+=Float.parseFloat(getDayTotal(userData.getDateKey())); //sum each day in pay period
                 edMain.putInt(getResources().getString(R.string.payPeriodNumKey) + userData.getDateKey(),  payRollNum); //payrollnum associated with date
-                dateStart = dateStart.plusDays(1);
-                userData.setDateKey(dateStart);
+                firstLocalDate = firstLocalDate.plusDays(1);
+                userData.setDateKey(firstLocalDate);
             }
             edMain.putString(getResources().getString(R.string.payDateKey) + payRollNum, userData.getDateKey()); //save paydate for corresponding pay period
             edMain.putFloat(getResources().getString(R.string.payPeriodTotalKey) + payRollNum, sum); //save pay total for corresponding pay period
@@ -206,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     public void getPrevSeti(){
         //value set by user
         String regRate = sharedPrefSeti.getString(getResources().getString(R.string.hourlyRateKey), "0"); //change to non null
+        String firstDate= sharedPrefSeti.getString(getResources().getString(R.string.firstPayPeriod),"2020/01/01");
 
         payRollTrack = new PayRollTrack();
         payRollTrack.setHourlyRate(Float.parseFloat(Objects.requireNonNull(regRate)));
@@ -213,6 +220,28 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         payRollTrack.setPayPercent(75);
     }
 
+    //todo check check
+    public LocalDate getFirstPayPer(){
+        return firstLocalDate;
+    }
+
+   //creates an array of date values in year/month/day and passes to LocalDate object
+    public void setFirstPayPer(String firstDate){
+        int count = 0;
+        int[] array = new int[3];
+
+        Scanner scan = new Scanner(firstDate);
+        scan.useDelimiter("/");
+
+        while(scan.hasNext()){
+            array[count] = Integer.parseInt(scan.next());
+            Log.d("firstpayperiodnums", String.valueOf(array[count]));
+            count++;
+        }
+        scan.close();
+
+        firstLocalDate= LocalDate.of(array[0],array[1],array[2]);
+    }
 
     public void onBackPressed() {
         // all other activities should return to the calendar screen

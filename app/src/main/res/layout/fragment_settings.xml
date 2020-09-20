@@ -6,140 +6,132 @@
     android:layout_height="match_parent"
     android:theme="@style/AppThemeMain"
     tools:context=".SettingsFragment">
-
-    <TextView
-        android:id="@+id/tvHourlyRate"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="64dp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="Hourly Rate"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="24sp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/btnSetAll"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvOtRate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="35dp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="OT Rate"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvHourlyRate" />
-
-    <TextView
-        android:id="@+id/tvSickPercent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="35dp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="Sick Rate"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOtRate" />
-
-    <TextView
-        android:id="@+id/tvPayCycle"
-        android:layout_width="168dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="35dp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="Days Per Cycle"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSickPercent" />
-
-    <EditText
-        android:id="@+id/etHourlyRate"
-        android:layout_width="92dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="58dp"
-        android:backgroundTint="@color/colorText"
-        android:ems="10"
-        android:hint="0"
-        android:inputType="numberDecimal"
-        android:textColor="@color/colorText"
-        android:textColorHighlight="@color/colorText"
-        android:textColorHint="@color/colorText"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/tvHourlyRate"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/etOTRate"
-        android:layout_width="92dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/colorText"
-        android:ems="10"
-        android:hint="0"
-        android:inputType="numberDecimal"
-        android:textColor="@color/colorText"
-        android:textColorHighlight="@color/colorText"
-        android:textColorHint="@color/colorText"
-        android:textColorLink="@color/colorText"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/tvOtRate"
-        app:layout_constraintTop_toBottomOf="@+id/etHourlyRate" />
-
-    <EditText
-        android:id="@+id/etSickPercent"
-        android:layout_width="92dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/colorText"
-        android:ems="10"
-        android:hint="0"
-        android:inputType="number"
-        android:textColor="@color/colorText"
-        android:textColorHighlight="@color/colorText"
-        android:textColorHint="@color/colorText"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/tvSickPercent"
-        app:layout_constraintTop_toBottomOf="@+id/etOTRate" />
-
-    <EditText
-        android:id="@+id/etDaysPerCycle"
-        android:layout_width="92dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/colorText"
-        android:ems="10"
-        android:hint="0"
-        android:inputType="number"
-        android:textColor="@color/colorText"
-        android:textColorHighlight="@color/colorText"
-        android:textColorHint="@color/colorText"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/tvPayCycle"
-        app:layout_constraintTop_toBottomOf="@+id/etSickPercent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="What is your hourly rate?"
+                android:textColor="@color/colorText"
+                android:textSize="20sp"></TextView>
+            <EditText
+                android:id="@+id/etHourlyRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/et_box"
+                android:hint="0"
+                android:inputType="numberDecimal"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"
+                android:textSize="20sp"></EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How many days in each pay cycle?"
+                android:textColor="@color/colorText"
+                android:textSize="20sp"></TextView>
+            <EditText
+                android:id="@+id/etDaysPerCycle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:hint="0"
+                android:inputType="number"
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorText"
+                android:textSize="20sp"></EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select start date of first pay period?"
+                android:textColor="@color/colorText"
+                android:textSize="20sp"></TextView>
+            <Button
+                android:id="@+id/btnFirstPay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#0D6F8F"
+                android:layout_marginStart="5dp"
+                android:text="Choose Date"
+                android:textColor="@color/colorText"
+                android:textSize="14sp"></Button>
+        </LinearLayout>
+  </LinearLayout>
 
     <Button
         android:id="@+id/btnSetAll"
         android:layout_width="86dp"
         android:layout_height="62dp"
-        android:layout_marginStart="172dp"
+        android:layout_marginBottom="132dp"
         android:background="@drawable/btn_custom"
-        android:text="+"
-        android:textSize="36sp"
+        android:text="Save"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/flDatePick"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_marginTop="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPayCycle"
-        app:layout_constraintVertical_bias="0.19" />
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:text="Select start date of first pay period"
+                android:textColor="@color/colorText"
+                android:textSize="18sp"></TextView>
+            <CalendarView
+                android:id="@+id/cvDateChoose"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/colorCalendar"
+                android:dateTextAppearance="@style/CalenderViewDateCustomText"
+                android:focusedMonthDateColor="@color/colorText"
+                android:foregroundTint="@color/colorTextBackGround"
+                android:maxDate="1/1/2024"
+                android:minDate="1/1/2020"
+                android:theme="@style/CalenderViewCustom"
+                android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"></CalendarView>
+        </LinearLayout>
+    </FrameLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
