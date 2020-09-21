@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
-
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,7 @@ import java.util.Objects;
 
 
 //todo if edit text equals null application crashes
-//todo change toast screen to diplsay hours
+//todo save all hours specific to the date
 public class CurrentDateFragment extends Fragment {
 
     private String curDate;
@@ -130,10 +129,9 @@ public class CurrentDateFragment extends Fragment {
                 String num = String.valueOf(dif.getHourDif());
                 //print hours
                 String wageRate = spWageRate.getSelectedItem().toString();
-                if(wageRate.contains("reg")){
+                if(wageRate.contains("reg")) {
                     tvRegNum.setText(num);
-                    customToast( num + " reg hours added" );
-
+                    customToast(num + " reg hours added");
                 }
                 if(wageRate.contains("ot")){
                     tvOtNum.setText(num);
@@ -162,9 +160,10 @@ public class CurrentDateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor edCurDate = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit();
-                edCurDate.putString(regHoursKey, tvRegNum.getText().toString());
-                edCurDate.putString(otHoursKey, tvOtNum.getText().toString());
-                edCurDate.putString(sickHoursKey, tvSickNum.getText().toString());
+                edCurDate.putString(regHoursKey, tvRegNum.getText().toString()); //Key = dateKey+regHours
+                edCurDate.putString(otHoursKey, tvOtNum.getText().toString());  //Key = dateKey+OtHours
+                edCurDate.putString(sickHoursKey, tvSickNum.getText().toString()); //Key = dateKey+SickHours
+                //now save all times here
                 edCurDate.apply();
                 //listener to save and return to Calendar Frag
                 try {
@@ -176,7 +175,6 @@ public class CurrentDateFragment extends Fragment {
                 }
             }
         });
-
         return v;
     }
 
@@ -193,6 +191,7 @@ public class CurrentDateFragment extends Fragment {
         toast.setView(layout);
         toast.show();
     }
+
 
 }
 
