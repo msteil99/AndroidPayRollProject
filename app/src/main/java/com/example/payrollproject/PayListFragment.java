@@ -23,6 +23,12 @@ import java.util.TreeMap;
 /*Class will retrieve and printed list from shared preference storage and display to screen, listener attached to Main activity
 * adjusts print if any changes*/
 
+//I will redo this to display a arrayList of buttons or text objects
+//if settings changed in date range change all
+//if cur date change dynamically add new values
+//what should I use as a key?
+
+
 public class PayListFragment extends Fragment  {
 
     private SharedPreferences pref;

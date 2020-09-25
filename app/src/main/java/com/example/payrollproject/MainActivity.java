@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     private PayRollTrack payRollTrack;
     private float payPerTotal;
     private UserData userData;
-    PayListFragment payListFragment;
+    private PayListFragment payListFragment;
     private LocalDate firstLocalDate;
 
 
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     //todo sum total for year in date changed and settings changed
     //todo print days in PayListFragment
     //todo change settings to have a custom hourly amount
+    //todo schedule calendar change in update
 
     /*function gets previous user data for current date and pay period then
       passes to the calendar fragment for display
@@ -168,6 +169,9 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     //save new pay roll list, opened by PayListFragment
     public void updatePayList(){
         String printPayRoll = userData.getPayDate() + " Total= " + userData.getPayRollTotal();
+        //print all dates in payroll with amount of hours worked
+        //Jan 1st - Total = $245 7 reg, 2 ot, 2 double .....
+
 
         sharedPrefPrint =  Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPrintPay), Context.MODE_PRIVATE));
         SharedPreferences.Editor editor = sharedPrefPrint.edit();
