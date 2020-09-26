@@ -28,10 +28,27 @@ import java.util.TreeMap;
 //if cur date change dynamically add new values
 //what should I use as a key?
 
+//or have it as a date button, when clicked iterate backwards displaying each date
+//have it all in a list sorted by dates
+//need to dynamically add the dates or an update class
+
+//what do I want? each time currentDate is updated I would like paylist to know and add the date to the list,
+//create a sorted list of date objects?
+
+
+//todo use localDate to compare the dates
+//create a sorted list using LocalDate to compare
+//todo add and sort list of dates dynamically
+
+//create a sorted list of text objects that can not have duplicates
+//initally display only the pay dates
+//if paydates are clicked display the the rest of the sorted date objects up until the next paydate
+//
 
 public class PayListFragment extends Fragment  {
 
     private SharedPreferences pref;
+    private ArrayList<String> payDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +74,11 @@ public class PayListFragment extends Fragment  {
         Map<String, ?> allEntries = pref.getAll();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
             str += "\n" + entry.getValue().toString() + "\n";
+             //list.add(entry.getValue().toString());
+            //could sort and add list in this loop
+
+
+
         }
         return str;
     }

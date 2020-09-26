@@ -27,10 +27,12 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     private SharedPreferences sharedPrefPrint;
     private SharedPreferences.Editor edMain;
     private PayRollTrack payRollTrack;
-    private float payPerTotal;
     private UserData userData;
     private PayListFragment payListFragment;
     private LocalDate firstLocalDate;
+    private float payPerTotal;
+    private int daysPerCycle;
+    private String firstDate;
 
 
     //todo on first init of application settings should be applied first or application crashes
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         getPrevSeti();
 
         //set first Pay period *do not place in getPrevSeti or large loop
-        String firstDate= sharedPrefSeti.getString(getResources().getString(R.string.firstPayPeriod),"2020/01/01");
+       // String firstDate= sharedPrefSeti.getString(getResources().getString(R.string.firstPayPeriod),"2020/01/01");
         setFirstPayPer(firstDate);
 
         //first and last day of the pay period, this is a test, would like to get value from setitngs
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         int payRollNum = userData.getPayRollNum();
         //sum total for payroll
         float sum = 0;
-        int daysPerCycle = 14; //get value from settings
+
         edMain= Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit());
         while (firstLocalDate.isBefore(dateEnd)) {
             for (int i = 0; i < daysPerCycle; i++) {
@@ -216,7 +218,9 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     public void getPrevSeti(){
         //value set by user
         String regRate = sharedPrefSeti.getString(getResources().getString(R.string.hourlyRateKey), "0"); //change to non null
-        String firstDate= sharedPrefSeti.getString(getResources().getString(R.string.firstPayPeriod),"2020/01/01");
+        firstDate= sharedPrefSeti.getString(getResources().getString(R.string.firstPayPeriod),"2020/01/01");
+        daysPerCycle = Integer.valueOf(Objects.requireNonNull(sharedPrefSeti.getString(getResources().getString(R.string.daysPerCycleKey), "14")));
+
 
         payRollTrack = new PayRollTrack();
         payRollTrack.setHourlyRate(Float.parseFloat(Objects.requireNonNull(regRate)));
@@ -273,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         toast.show();
     }
 
-    /*Inner class to retrieve user data for the selected date*/
+
     class UserData{
 
     private String dateKey,payDate;
