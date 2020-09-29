@@ -19,8 +19,6 @@ import android.widget.Toast;
 import java.util.Objects;
 
 //todo - on select date button for chossing date of first pay period, make save button invisible, select a date to choose
-
-
 public class SettingsFragment extends Fragment {
 
     private String payPerDate;
@@ -68,7 +66,7 @@ public class SettingsFragment extends Fragment {
                         //month+1 so Jan = 1
                         String dateKey = year + "/" + (month+1) + "/" + day;
                         payPerDate = dateKey;
-                        customToast(dateKey + " saved");
+                        customToast(dateKey + " added");
                         flDatePick.setVisibility(View.GONE);
                         btnSetAll.setVisibility(View.VISIBLE);
                     }

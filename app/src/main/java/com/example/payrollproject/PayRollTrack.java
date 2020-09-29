@@ -53,7 +53,7 @@ public class PayRollTrack {
     public void setSickWorked(float sickWorked){ this.sickWorked = sickWorked; }
 
     public String getDayTotal(){
-        DecimalFormat df = new DecimalFormat(".###");
+        DecimalFormat df = new DecimalFormat(".##");
 
         dayTotal =  (regWorked * hourlyRate)+(otWorked * otRate)+(sickPay * sickWorked) + (otDoubleWorked * otDoubleRate);
         return df.format(dayTotal);

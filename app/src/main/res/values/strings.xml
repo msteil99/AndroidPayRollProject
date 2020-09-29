@@ -5,6 +5,7 @@
     <string name="sickPercentKey">sickPercentKey</string>
     <string name="daysPerCycleKey">daysPerCycleKey</string>
     <string name="payPeriodTotalKey">payPerTotalKey</string>
+    <string name="dayTotalKey">dayTotalKey</string>
     <string name="payPeriodNumKey">payPerNumKey</string>
     <string name="payDateKey">payDateKey</string>
     <string name="dateKey">dateKey</string>

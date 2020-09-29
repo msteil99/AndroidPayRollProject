@@ -30,8 +30,8 @@ public class TimeDif {
 
     private void hourDif(){
      while(frmHour != toHour){
-      hourFinal++;
-      frmHour++;
+         frmHour++;
+         hourFinal++; //todo check calculation here - may 8pm to 3am stops at 7
       if(frmHour >= 24)
        frmHour = 0;
       }
