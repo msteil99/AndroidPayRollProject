@@ -13,6 +13,7 @@
     <string name="otHoursKey">otKey</string>
     <string name="doubleHoursKey">doubleKey</string>
     <string name="sickHoursKey">regKey</string>
+    <string name="dateSetKey">dateSetKey</string>
     <string name="prefSeti">prefSeti</string>
     <string name="prefPayRoll">prefPayRoll</string>
     <string name= "prefPrintPay">prefPrintPay</string>

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -31,11 +32,22 @@ import java.util.TreeSet;
 //put the listener in main activity as normal and send all values associated with the payDate
 
 //todo send the infromation to paylist via listeners,
+//todo create a dynamic list of button containing pay dates
+//   PAYDATES
+//    Button or better yet text that looks like clickable button
+//    Button2
+//    button3 etc
+
+//create an arrayList of button objects adding infinite
+
 
 public class PayListFragment extends Fragment  {
 
-    private SharedPreferences pref;
-    private ArrayList<String> payDates = new ArrayList<>();
+    private SharedPreferences spPayDates;
+    private SharedPreferences spPayData;
+    private Set<String> payDates;
+    private ArrayList<View> btnList;
+    private String payDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,8 +57,8 @@ public class PayListFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPrintPay),Context.MODE_PRIVATE);
-
+        spPayDates = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPrintPay),Context.MODE_PRIVATE);
+        spPayData = Objects.requireNonNull(getContext().getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
         String payList = printAll();
 
         View v = inflater.inflate(R.layout.fragment_pay_list, container, false);
@@ -58,19 +70,28 @@ public class PayListFragment extends Fragment  {
 
     //function to retrieve all values in shared pref
     public String printAll(){
+
         String str = "";
-        //Set<String> treeSet = new TreeSet<>();
-        //treeSet = pref.getStringSet("payDateKey",treeSet);
+        spPayData = Objects.requireNonNull(getContext().getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
+        payDates = new TreeSet<>();
+        Iterator<String> it;
 
-
-        Map<String, ?> allEntries = pref.getAll();
+        Map<String, ?> allEntries = spPayDates.getAll();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            str += "\n" + entry.getValue().toString() + "\n";
-
+            payDate = entry.getValue().toString();
 
         }
         return str;
     }
 
+
+    //set of dates to iterate and apply using payDate string as key
+    // payDates= spPayData.getStringSet(getResources().getString(R.string.dateSetKey) + entry.getValue().toString(), payDates);
+    //  it = payDates.iterator();
+           /* works
+            while(it.hasNext()) {
+                str += it.next() + " Yep";
+            }
+            */
 
 }
