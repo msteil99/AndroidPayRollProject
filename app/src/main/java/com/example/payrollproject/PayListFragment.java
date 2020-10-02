@@ -45,9 +45,9 @@ public class PayListFragment extends Fragment  {
 
     private SharedPreferences spPayDates;
     private SharedPreferences spPayData;
-    private Set<String> payDates;
+    private Set<String> payDateSet;
     private ArrayList<View> btnList;
-    private String payDate;
+    private String strPayDates;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,30 +59,24 @@ public class PayListFragment extends Fragment  {
 
         spPayDates = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPrintPay),Context.MODE_PRIVATE);
         spPayData = Objects.requireNonNull(getContext().getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
-        String payList = printAll();
+        strPayDates = "";
 
-        View v = inflater.inflate(R.layout.fragment_pay_list, container, false);
-        TextView list = v.findViewById(R.id.tvPayList);
-        list.setText(payList);
-
-        return v;
-    }
-
-    //function to retrieve all values in shared pref
-    public String printAll(){
-
-        String str = "";
-        spPayData = Objects.requireNonNull(getContext().getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
-        payDates = new TreeSet<>();
+        payDateSet = new TreeSet<>();
         Iterator<String> it;
 
         Map<String, ?> allEntries = spPayDates.getAll();
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            payDate = entry.getValue().toString();
-
+            strPayDates += entry.getValue().toString() + "\n";
         }
-        return str;
+
+        View v = inflater.inflate(R.layout.fragment_pay_list, container, false);
+        TextView list = v.findViewById(R.id.tvPayList);
+        list.setText(strPayDates);
+
+        return v;
     }
+
+
 
 
     //set of dates to iterate and apply using payDate string as key

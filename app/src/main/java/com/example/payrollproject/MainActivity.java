@@ -103,11 +103,6 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     }
 
     public void onSettingsChanged() {
-        //todo pracprac
-        String[] array = new String[14];
-
-
-
         //retrieve any previous user data
         aplyPrevSeti();
         //set first Pay period *do not place in aplyPrevSeti or large loop
@@ -134,8 +129,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
             }
             edMain.putString(getResources().getString(R.string.payDateKey) + payRollNum, userData.getDateKey()); //save paydate for corresponding pay period
             edMain.putFloat(getResources().getString(R.string.payPeriodTotalKey) + payRollNum, sum); //save pay total for corresponding pay period
-            edMain.putStringSet(getResources().getString(R.string.dateSetKey) + userData.getDateKey(), dateSet);//save the list of dates associated with pay period with paydate as key
-            Log.d(getResources().getString(R.string.dateSetKey), userData.getDateKey());
+            edMain.putStringSet("dateSetKey" + userData.getDateKey(), dateSet);//save the list of dates associated with pay period with paydate as key
             dateSet = new TreeSet<>();
             sum = 0;
             payRollNum++;
@@ -159,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
 
         //reset userData to display correct amount, save new String printout of payRoll and send to PayListFrag
         userData = new UserData(dateKey);
-        updatePayList();
+        updatePayListFrag();
 
         //update cur pay period value in calendar screen
         if(userData.getPayRollNum() == new UserData(LocalDate.now()).getPayRollNum()){
@@ -179,11 +173,10 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     }
 
     //save each paydate in a single SharedP object to print all in PayListFragment
-    public void updatePayList(){
-        //should I get and set a list in shared preferences
+    public void updatePayListFrag(){
         sharedPrefPrint =  Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPrintPay), Context.MODE_PRIVATE));
         SharedPreferences.Editor editor = sharedPrefPrint.edit();
-        editor.putString(getResources().getString(R.string.payDateKey) , userData.getDateKey());
+        editor.putString(userData.getPayDate() , userData.getPayDate());
         editor.apply();
     }
 
@@ -209,7 +202,6 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
      * compute the daily value, saves new day to Shared Pref*/
     public void saveDayTotal(String dateKey){
         SharedPreferences.Editor edSaveDay;
-
 
         aplyPrevSeti();
 
@@ -277,7 +269,8 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         toast.show();
     }
 
-
+    /*Inner class to retrieve user data for the selected date*/
+    //todo check if setting data needs to be done at all
     class UserData{
 
         private String dateKey,payDate;
