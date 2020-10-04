@@ -43,7 +43,7 @@ public class PayRollTrack {
 
     public void setOtWorked(float otWorked){ this.otWorked = otWorked; }
     public float getOtWorked(){ return otWorked; }
-    //return the hours of OT worked in a day
+
 
     public void setOtDouble(float otDoubleWorked){this.otDoubleWorked = otDoubleWorked; }
     public float getOtDouble(){ return otDoubleWorked; }

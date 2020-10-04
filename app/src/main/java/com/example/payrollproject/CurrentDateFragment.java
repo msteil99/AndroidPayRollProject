@@ -76,9 +76,9 @@ public class CurrentDateFragment extends Fragment {
         final EditText etToMin = v.findViewById(R.id.etToMin);
 
         //instantiate keys unique to this date
-        final String regHoursKey = curDate + R.string.regHoursKey;
-        final String otHoursKey = curDate + R.string.otHoursKey;
-        final String sickHoursKey = curDate + R.string.sickHoursKey;
+        final String regHoursKey = R.string.regHoursKey + curDate;
+        final String otHoursKey =  R.string.otHoursKey + curDate;
+        final String sickHoursKey = R.string.sickHoursKey + curDate;
 
         //Toast.makeText(getContext(),etFrmHour.getText().toString(), Toast.LENGTH_SHORT).show();
         //This will set the text if user has previous saved value

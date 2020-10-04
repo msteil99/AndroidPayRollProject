@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     private FragmentManager fragMan; private FragmentTransaction fragTrans;
     private SharedPreferences sharedPrefSeti;
     private SharedPreferences sharedPrefUData;
-    private SharedPreferences sharedPrefPrint;
+   // private SharedPreferences sharedPrefPrint;
     private SharedPreferences.Editor edMain;
     private PayRollTrack payRollTrack;
     private float payPerTotal;
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     //todo sum total for year in date changed and settings changed
     //todo print days in PayListFragment
     //todo change settings to have a custom hourly amount
+    //todo sort paydates in paylist
 
     /*function gets previous user data for current date and pay period then
       passes to the calendar fragment for display
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
                 .add(R.id.flFragment, calendarFragment)
                 .commit();
     }
+
+    public void onPrintPayRoll(){}
 
     //once user selects date in calendar pass the specific datekey to fragment
     public void onDateSelected(String dateKey) {
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         //retrieve any previous user data
         aplyPrevSeti();
         //set first Pay period *do not place in aplyPrevSeti or large loop
-        String firstDate= sharedPrefSeti.getString(getResources().getString(R.string.firstPayPeriod),"2020/01/01");
+        String firstDate= sharedPrefSeti.getString(getResources().getString(R.string.firstPayPerKey),"2020/01/01");
         setFirstPayPer(firstDate);
         LocalDate dateEnd = LocalDate.of(2022, 12, 25); // parse value from settings
         //reset user data to start date, iterate and apply new values
@@ -123,13 +126,16 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
                 saveDayTotal(userData.getDateKey()); //saves and track hours worked for the day
                 sum+=Float.parseFloat(getDayTotal(userData.getDateKey())); //sum each day in pay period
                 edMain.putInt(getResources().getString(R.string.payPeriodNumKey) + userData.getDateKey(),  payRollNum);//payrollnum associated with date
+                //todo find out how to retrieve dates associated with pay period
                 dateSet.add(userData.getDateKey()); //add and save all dates associated with pay period to  a set
+
                 firstLocalDate = firstLocalDate.plusDays(1);
                 userData.setDateKey(firstLocalDate);
             }
             edMain.putString(getResources().getString(R.string.payDateKey) + payRollNum, userData.getDateKey()); //save paydate for corresponding pay period
             edMain.putFloat(getResources().getString(R.string.payPeriodTotalKey) + payRollNum, sum); //save pay total for corresponding pay period
-            edMain.putStringSet("dateSetKey" + userData.getDateKey(), dateSet);//save the list of dates associated with pay period with paydate as key
+            edMain.putStringSet(getResources().getString(R.string.datesWorkedKey) + userData.getDateKey(), dateSet);//save the list of dates associated with pay period with paydate as key
+            Log.d("btnkeycheck", userData.getDateKey()); //where are the paydates set
             dateSet = new TreeSet<>();
             sum = 0;
             payRollNum++;
@@ -172,13 +178,19 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         customToast(getDayTotal(dateKey) + " Saved", this.findViewById(android.R.id.content));
     }
 
-    //save each paydate in a single SharedP object to print all in PayListFragment
+    //paylist will be printed in paylist fragment, may be better to add all in Settings to ensure sorted properly, frm pay start to pay end
+    //this would avoid the reinit
     public void updatePayListFrag(){
-        sharedPrefPrint =  Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPrintPay), Context.MODE_PRIVATE));
-        SharedPreferences.Editor editor = sharedPrefPrint.edit();
-        editor.putString(userData.getPayDate() , userData.getPayDate());
+        Set<String> dates = new TreeSet<>();
+        dates= sharedPrefUData.getStringSet(getResources().getString(R.string.payDatesKey),dates);
+        dates.add(userData.getPayDate());
+
+        SharedPreferences.Editor editor = sharedPrefUData.edit();
+        editor.putStringSet(getResources().getString(R.string.payDatesKey), dates);
+
         editor.apply();
     }
+
 
     //creates an array of date values in year/month/day and passes to LocalDate object
     public void setFirstPayPer(String firstDate){
@@ -205,16 +217,16 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
 
         aplyPrevSeti();
 
-        String regHours = sharedPrefUData.getString(dateKey + R.string.regHoursKey, "0");
-        String otHours = sharedPrefUData.getString(dateKey + R.string.otHoursKey, "0");
-        String sickHours = sharedPrefUData.getString(dateKey + R.string.sickHoursKey, "0");
+        String regHours = sharedPrefUData.getString(R.string.regHoursKey + dateKey, "0");
+        String otHours = sharedPrefUData.getString(R.string.otHoursKey + dateKey, "0");
+        String sickHours = sharedPrefUData.getString(R.string.sickHoursKey + dateKey, "0");
 
         payRollTrack.setRegWorked(Float.parseFloat(Objects.requireNonNull(regHours)));
         payRollTrack.setOtWorked(Float.parseFloat(Objects.requireNonNull(otHours)));
         payRollTrack.setSickWorked(Float.parseFloat(Objects.requireNonNull(sickHours)));
 
         edSaveDay = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit());
-        edSaveDay.putString("DayTotal" + dateKey, payRollTrack.getDayTotal()).commit();
+        edSaveDay.putString(getResources().getString(R.string.dayTotalKey) + dateKey, payRollTrack.getDayTotal()).commit();
 
     }
 
@@ -228,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
     }
 
     public String getDayTotal(String dateKey){
-        return sharedPrefUData.getString("DayTotal"+ dateKey, "");
+        return sharedPrefUData.getString(getResources().getString(R.string.dayTotalKey)+ dateKey, ""); //todo crashes if key changed
     }
 
     /*get rates from settings and apply to payrolltrack for numerical functions  */
@@ -241,7 +253,6 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         payRollTrack.setOverTimeRate(1.5f);
         payRollTrack.setPayPercent(75);
     }
-
 
     public void onBackPressed() {
         // all other activities should return to the calendar screen
@@ -350,6 +361,11 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
                     sharedPrefPay.getString(getResources().getString(R.string.payDateKey)+ payRollNum,"");
             setPayDate(payDate);
         }
+
+
+
+
+
     }
 
 

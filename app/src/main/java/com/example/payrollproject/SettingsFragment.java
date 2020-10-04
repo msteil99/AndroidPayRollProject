@@ -50,7 +50,7 @@ public class SettingsFragment extends Fragment {
         SharedPreferences pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti),Context.MODE_PRIVATE);
         etHourlyRate.setText(pref.getString(getResources().getString(R.string.hourlyRateKey), "0"));
         etDaysPerCycle.setText((pref.getString(getResources().getString(R.string.daysPerCycleKey),"0")));
-        payPerDate = pref.getString(getResources().getString(R.string.firstPayPeriod),"2020/01/01");
+        payPerDate = pref.getString(getResources().getString(R.string.firstPayPerKey),"2020/01/01");
 
         //places calendar in foreground, once date selected by user calendar no longer visible
         Button btnFirstPay = v.findViewById(R.id.btnFirstPay);
@@ -83,7 +83,7 @@ public class SettingsFragment extends Fragment {
                 SharedPreferences.Editor edSet = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE).edit();
                 edSet.putString(getString(R.string.hourlyRateKey), etHourlyRate.getText().toString());
                 edSet.putString(getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
-                edSet.putString(getString(R.string.firstPayPeriod),payPerDate);
+                edSet.putString(getString(R.string.firstPayPerKey),payPerDate);
                 edSet.apply();
 
                 try {
@@ -91,7 +91,7 @@ public class SettingsFragment extends Fragment {
                     Objects.requireNonNull(onSettingsChangedListener).onSettingsChanged();
                 } catch (ClassCastException e) {
                     throw new ClassCastException(Objects.requireNonNull(onSettingsChangedListener).toString()
-                            + " must implement OnSelectedListener");
+                            + " must implement OnSettingsChangedListener");
                 }
             }
         });

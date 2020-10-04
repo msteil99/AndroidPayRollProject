@@ -2,6 +2,7 @@ package com.example.payrollproject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,28 +29,14 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-/*Class will retrieve and printed list from shared preference storage and display to screen, listener attached to Main activity
- * adjusts print if any changes*/
-
-//put the listener in main activity as normal and send all values associated with the payDate
-
-//todo send the infromation to paylist via listeners,
-//todo create a dynamic list of button containing pay dates
-//   PAYDATES
-//    Button or better yet text that looks like clickable button
-//    Button2
-//    button3 etc
-
-//create an arrayList of button objects adding infinite
-
-
 public class PayListFragment extends Fragment  {
 
-    private SharedPreferences spPayDates;
     private SharedPreferences spPayData;
     private Set<String> payDateSet;
-    private ArrayList<View> btnList;
-    private String strPayDates;
+    private Set<String> datesWorkedSet;
+    private ArrayList<View> payBtnList;
+    private String strPayDate = "";
+    private String dateData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,35 +46,72 @@ public class PayListFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        spPayDates = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPrintPay),Context.MODE_PRIVATE);
+        final View v= inflater.inflate(R.layout.fragment_pay_list, container, false);
+
+        //list of buttons to display individual payroll date
+        payBtnList = new ArrayList<>();
+
         spPayData = Objects.requireNonNull(getContext().getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
-        strPayDates = "";
+        //get all payDates that have hours added by user
+        payDateSet = spPayData.getStringSet(getResources().getString(R.string.payDatesKey),new TreeSet<String>());
 
-        payDateSet = new TreeSet<>();
-        Iterator<String> it;
+        //Container for  payroll buttons
+        LinearLayout linearLayout =  v.findViewById(R.id.liPayDateList);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(5,50,5,0);
 
-        Map<String, ?> allEntries = spPayDates.getAll();
-        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            strPayDates += entry.getValue().toString() + "\n";
-        }
+        //iterate and apply payroll buttons to screen
+        Iterator<String> it = payDateSet.iterator();
+         while(it.hasNext()) {
 
-        View v = inflater.inflate(R.layout.fragment_pay_list, container, false);
-        TextView list = v.findViewById(R.id.tvPayList);
-        list.setText(strPayDates);
+          final Button btnPayRoll = new Button(getContext());
+          btnPayRoll.setBackground(getResources().getDrawable(R.drawable.btn_custom, getActivity().getTheme()));
 
-        return v;
+          payBtnList.add(btnPayRoll);
+          strPayDate = it.next();
+
+          //create click events for each button
+          btnPayRoll.setText(strPayDate);
+          btnPayRoll.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  dateData = "";
+                  datesWorkedSet =  spPayData.getStringSet(getResources().getString(R.string.datesWorkedKey) + btnPayRoll.getText(),new TreeSet<String>());
+
+                  Iterator<String>it2 = datesWorkedSet.iterator();
+                  while(it2.hasNext()) {
+                      String printKey = it2.next();
+                      dateData += printDateData(printKey);
+                  }
+                  TextView tv = getActivity().findViewById(R.id.tvPrintDates);
+                  tv.setText(dateData);
+              }
+          });
+          linearLayout.addView(btnPayRoll, layoutParams);
+         }
+         return v;
     }
 
+   //todo create seperate class to apply this and other methods assoicated with sahredprefPay
+    public String printDateData(String key){
+        String print = "";
 
+        String regHoursKey =  R.string.regHoursKey + key;
+        String otHoursKey =   R.string.otHoursKey + key;
+        String sickHoursKey = R.string.sickHoursKey + key;
+        String dayTotalKey = getResources().getString(R.string.dayTotalKey) + key;
 
+        String dayTotal = spPayData.getString(dayTotalKey,"0");
 
-    //set of dates to iterate and apply using payDate string as key
-    // payDates= spPayData.getStringSet(getResources().getString(R.string.dateSetKey) + entry.getValue().toString(), payDates);
-    //  it = payDates.iterator();
-           /* works
-            while(it.hasNext()) {
-                str += it.next() + " Yep";
-            }
-            */
+        if(Float.valueOf(dayTotal) > 0) {
+            print += key + "\n Reg Hours=" + spPayData.getString(regHoursKey, "0") + "\n  OT Hours(1.5)= "
+                    + spPayData.getString(otHoursKey, "0") + "\n SickHours= " + spPayData.getString(sickHoursKey, "0") + "\n"
+                    + "Day Total = " + dayTotal + "\n\n";
+        }
 
+        return print;
+    }
 }
+
+
+
