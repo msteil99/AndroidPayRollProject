@@ -3,7 +3,6 @@ package com.example.payrollproject;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import android.view.Gravity;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Objects;
 
-//todo - on select date button for chossing date of first pay period, make save button invisible, select a date to choose
 public class SettingsFragment extends Fragment {
 
     private String payPerDate;
@@ -54,7 +52,7 @@ public class SettingsFragment extends Fragment {
 
         //places calendar in foreground, once date selected by user calendar no longer visible
         Button btnFirstPay = v.findViewById(R.id.btnFirstPay);
-        btnFirstPay.setOnClickListener(new View.OnClickListener() {
+        btnFirstPay.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 flDatePick.setVisibility(View.VISIBLE);
@@ -71,7 +69,6 @@ public class SettingsFragment extends Fragment {
                         btnSetAll.setVisibility(View.VISIBLE);
                     }
                 });
-
             }
         });
 
@@ -81,9 +78,9 @@ public class SettingsFragment extends Fragment {
             public void onClick(View view) {
                 //todo place if != null
                 SharedPreferences.Editor edSet = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE).edit();
-                edSet.putString(getString(R.string.hourlyRateKey), etHourlyRate.getText().toString());
-                edSet.putString(getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
-                edSet.putString(getString(R.string.firstPayPerKey),payPerDate);
+                edSet.putString(getResources().getString(R.string.hourlyRateKey), etHourlyRate.getText().toString());
+                edSet.putString(getResources().getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
+                edSet.putString(getResources().getString(R.string.firstPayPerKey),payPerDate);
                 edSet.apply();
 
                 try {
@@ -111,9 +108,6 @@ public class SettingsFragment extends Fragment {
         toast.setView(layout);
         toast.show();
     }
-
-
-
 
 }
 

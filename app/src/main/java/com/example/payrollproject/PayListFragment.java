@@ -6,28 +6,19 @@ import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.TreeSet;
+
+//todo get the pay period total and display
 
 public class PayListFragment extends Fragment  {
 
@@ -47,7 +38,6 @@ public class PayListFragment extends Fragment  {
                              Bundle savedInstanceState) {
 
         final View v= inflater.inflate(R.layout.fragment_pay_list, container, false);
-
         //list of buttons to display individual payroll date
         payBtnList = new ArrayList<>();
 
@@ -75,10 +65,18 @@ public class PayListFragment extends Fragment  {
           btnPayRoll.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View view) {
+
+
+
+                  //TextView tvPay = getActivity().findViewById(R.id.tvPDate);
+                 // Float total = (spPayData.getFloat(getResources().getString(R.string.payPeriodTotalKey)+payrollnum, 0)); //crashes application
+                 // tvPay.setText(String.valueOf(total));
+
                   dateData = "";
                   datesWorkedSet =  spPayData.getStringSet(getResources().getString(R.string.datesWorkedKey) + btnPayRoll.getText(),new TreeSet<String>());
 
                   Iterator<String>it2 = datesWorkedSet.iterator();
+
                   while(it2.hasNext()) {
                       String printKey = it2.next();
                       dateData += printDateData(printKey);
@@ -92,23 +90,21 @@ public class PayListFragment extends Fragment  {
          return v;
     }
 
-   //todo create seperate class to apply this and other methods assoicated with sahredprefPay
     public String printDateData(String key){
         String print = "";
 
-        String regHoursKey =  R.string.regHoursKey + key;
-        String otHoursKey =   R.string.otHoursKey + key;
-        String sickHoursKey = R.string.sickHoursKey + key;
+        String regHoursKey =  getResources().getString(R.string.regHoursKey) + key;
+        String otHoursKey =   getResources().getString(R.string.otHoursKey) + key;
+        String sickHoursKey = getResources().getString(R.string.sickHoursKey) + key;
         String dayTotalKey = getResources().getString(R.string.dayTotalKey) + key;
 
         String dayTotal = spPayData.getString(dayTotalKey,"0");
 
         if(Float.valueOf(dayTotal) > 0) {
-            print += key + "\n Reg Hours=" + spPayData.getString(regHoursKey, "0") + "\n  OT Hours(1.5)= "
-                    + spPayData.getString(otHoursKey, "0") + "\n SickHours= " + spPayData.getString(sickHoursKey, "0") + "\n"
+            print += key + "\nReg Hours=" + spPayData.getString(regHoursKey, "0") + "\nOT Hours(1.5)= "
+                    + spPayData.getString(otHoursKey, "0") + "\nSickHours= " + spPayData.getString(sickHoursKey, "0") + "\n"
                     + "Day Total = " + dayTotal + "\n\n";
         }
-
         return print;
     }
 }

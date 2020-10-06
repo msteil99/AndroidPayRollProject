@@ -73,7 +73,7 @@
                 android:id="@+id/btnFirstPay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#0D6F8F"
+                android:background="@drawable/btn_custom"
                 android:layout_marginStart="5dp"
                 android:text="Choose Date"
                 android:textColor="@color/colorText"

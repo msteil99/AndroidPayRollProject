@@ -10,10 +10,10 @@
     <string name="payPeriodNumKey">payPerNumKey</string>
     <string name="payDateKey">payDateKey</string>
     <string name="dateKey">dateKey</string>
-    <string name="regHoursKey">regKey</string>
-    <string name="otHoursKey">otKey</string>
-    <string name="doubleHoursKey">doubleKey</string>
-    <string name="sickHoursKey">regKey</string>
+    <string name="regHoursKey">regHoursKey</string>
+    <string name="otHoursKey">otHoursKey</string>
+    <string name="doubleHoursKey">doubleHoursKey</string>
+    <string name="sickHoursKey">sickHoursKey</string>
     <string name="dateSetKey">dateSetKey</string>
     <string name="datesWorkedKey">datesWorkedKey</string>
     <string name="firstPayPerKey">firstPayPerKey</string>

@@ -45,8 +45,6 @@ public class CurrentDateFragment extends Fragment {
         //get date selected key
         curDate = getArguments().getString(getResources().getString(R.string.dateKey));
 
-
-
         View v = inflater.inflate(R.layout.fragment_current_date, container, false);
         //sets title to match date key
         TextView tvCurDate = v.findViewById(R.id.tvCurrentDate);
@@ -76,11 +74,10 @@ public class CurrentDateFragment extends Fragment {
         final EditText etToMin = v.findViewById(R.id.etToMin);
 
         //instantiate keys unique to this date
-        final String regHoursKey = R.string.regHoursKey + curDate;
-        final String otHoursKey =  R.string.otHoursKey + curDate;
-        final String sickHoursKey = R.string.sickHoursKey + curDate;
+        final String regHoursKey = getResources().getString(R.string.regHoursKey) + curDate;
+        final String otHoursKey =  getResources().getString(R.string.otHoursKey) + curDate;
+        final String sickHoursKey = getResources().getString(R.string.sickHoursKey) + curDate;
 
-        //Toast.makeText(getContext(),etFrmHour.getText().toString(), Toast.LENGTH_SHORT).show();
         //This will set the text if user has previous saved value
         SharedPreferences pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPayRoll),Context.MODE_PRIVATE);
         tvRegNum.setText(pref.getString(regHoursKey, "0"));
@@ -91,9 +88,7 @@ public class CurrentDateFragment extends Fragment {
         btnAddHours.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                  //todo check null values here
-                 //convert user text to int
+                //convert user text to int
                  if(etFrmHour.length() != 0)
                  frmHour = Integer.parseInt(etFrmHour.getText().toString());
                  if(etFrmMin.length() != 0)
@@ -103,18 +98,17 @@ public class CurrentDateFragment extends Fragment {
                  if(etToMin.length() != 0)
                  toMin = Integer.parseInt(etToMin.getText().toString());
 
+                 //tracks the hour worke
                  printFrm = frmHour + ":" +  frmMin + spFrmTime.getSelectedItem().toString();
                  printTo = toHour + ":" + toMin + spToTime.getSelectedItem().toString();
 
                 //check range for 12 hour format
                 if (frmHour <= 0 || frmHour > 12 || frmMin > 59) {
                     Toast.makeText(getActivity(), "Out of Range", Toast.LENGTH_SHORT).show();
-                    //etFrmHour.setText("0");
                     return;
                 }
                 if (toHour <= 0 || toHour > 12 || toMin > 59) {
                     Toast.makeText(getActivity(), "Out of Range", Toast.LENGTH_SHORT).show();
-                    //etToHour.setText("0");
                     return;
                 }
                 //convert clock to 24 hour
@@ -174,10 +168,9 @@ public class CurrentDateFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor edCurDate = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit();
-                edCurDate.putString(regHoursKey, tvRegNum.getText().toString());//Key = dateKey+regHours
-                edCurDate.putString(otHoursKey, tvOtNum.getText().toString());//Key = dateKey+OtHours
-                edCurDate.putString(sickHoursKey, tvSickNum.getText().toString());//Key = dateKey+SickHours
-                //now save all times here
+                edCurDate.putString(regHoursKey, tvRegNum.getText().toString());
+                edCurDate.putString(otHoursKey, tvOtNum.getText().toString());
+                edCurDate.putString(sickHoursKey, tvSickNum.getText().toString());
                 edCurDate.apply();
                 //listener to save and return to Calendar Frag
                 try {
