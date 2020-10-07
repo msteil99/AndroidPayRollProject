@@ -238,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements CalendarFragment.
         edSavePR = Objects.requireNonNull(getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE).edit());
 
         UserData savePayRoll = new UserData(dateKey);
+        edSavePR.putFloat(getResources().getString(R.string.payPeriodTotalKey) + userData.getPayDate(),amount);
         edSavePR.putFloat(getResources().getString(R.string.payPeriodTotalKey) + savePayRoll.getPayRollNum(), amount).commit();
     }
 

@@ -6,6 +6,8 @@ import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,11 +68,10 @@ public class PayListFragment extends Fragment  {
               @Override
               public void onClick(View view) {
 
-
-
-                  //TextView tvPay = getActivity().findViewById(R.id.tvPDate);
-                 // Float total = (spPayData.getFloat(getResources().getString(R.string.payPeriodTotalKey)+payrollnum, 0)); //crashes application
-                 // tvPay.setText(String.valueOf(total));
+                  TextView tvPay = getActivity().findViewById(R.id.tvPDate);
+                  Float total = spPayData.getFloat(getResources().getString(R.string.payPeriodTotalKey)+btnPayRoll.getText(), 0); //key matches main
+                  Log.d("paypertots?", String.valueOf(total)); //off by one day
+                  tvPay.setText(String.valueOf(total));
 
                   dateData = "";
                   datesWorkedSet =  spPayData.getStringSet(getResources().getString(R.string.datesWorkedKey) + btnPayRoll.getText(),new TreeSet<String>());
