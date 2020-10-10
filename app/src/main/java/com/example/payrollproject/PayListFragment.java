@@ -2,12 +2,8 @@ package com.example.payrollproject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +15,6 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
-
-//todo get the pay period total and display
 
 public class PayListFragment extends Fragment  {
 
@@ -44,7 +38,6 @@ public class PayListFragment extends Fragment  {
         payBtnList = new ArrayList<>();
 
         spPayData = Objects.requireNonNull(getContext().getSharedPreferences(getResources().getString(R.string.prefPayRoll), Context.MODE_PRIVATE));
-        //get all payDates that have hours added by user
         payDateSet = spPayData.getStringSet(getResources().getString(R.string.payDatesKey),new TreeSet<String>());
 
         //Container for  payroll buttons
@@ -54,39 +47,42 @@ public class PayListFragment extends Fragment  {
 
         //iterate and apply payroll buttons to screen
         Iterator<String> it = payDateSet.iterator();
-         while(it.hasNext()) {
+        while(it.hasNext()) {
 
-          final Button btnPayRoll = new Button(getContext());
-          btnPayRoll.setBackground(getResources().getDrawable(R.drawable.btn_custom, getActivity().getTheme()));
+            final Button btnPayRoll = new Button(getContext());
+            btnPayRoll.setBackground(getResources().getDrawable(R.drawable.btn_custom, getActivity().getTheme()));
 
-          payBtnList.add(btnPayRoll);
-          strPayDate = it.next();
+            payBtnList.add(btnPayRoll);
+            strPayDate = it.next();
 
-          //create click events for each button
-          btnPayRoll.setText(strPayDate);
-          btnPayRoll.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
+            btnPayRoll.setText(strPayDate);
+            final Float total = spPayData.getFloat(getResources().getString(R.string.payPeriodTotalKey) + btnPayRoll.getText(), 0);
 
-                  TextView tvPay = getActivity().findViewById(R.id.tvPDate);
-                  Float total = spPayData.getFloat(getResources().getString(R.string.payPeriodTotalKey)+btnPayRoll.getText(), 0); //key matches main
-                  Log.d("paypertots?", String.valueOf(total)); //off by one day
-                  tvPay.setText(String.valueOf(total));
+            //remove any payroll btns with zero value
+            if (total > 0) {
+                btnPayRoll.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
-                  dateData = "";
-                  datesWorkedSet =  spPayData.getStringSet(getResources().getString(R.string.datesWorkedKey) + btnPayRoll.getText(),new TreeSet<String>());
+                        TextView tvPay = getActivity().findViewById(R.id.tvPDate);
+                        tvPay.setText(String.valueOf(total));
 
-                  Iterator<String>it2 = datesWorkedSet.iterator();
+                        dateData = "";
+                        datesWorkedSet = spPayData.getStringSet(getResources().getString(R.string.datesWorkedKey) + btnPayRoll.getText(), new TreeSet<String>());
 
-                  while(it2.hasNext()) {
-                      String printKey = it2.next();
-                      dateData += printDateData(printKey);
-                  }
-                  TextView tv = getActivity().findViewById(R.id.tvPrintDates);
-                  tv.setText(dateData);
-              }
-          });
-          linearLayout.addView(btnPayRoll, layoutParams);
+                        Iterator<String> it2 = datesWorkedSet.iterator();
+
+                        while (it2.hasNext()) {
+                            String printKey = it2.next();
+                            dateData += printDateData(printKey);
+                        }
+                        TextView tv = getActivity().findViewById(R.id.tvPrintDates);
+                        tv.setText(dateData);
+                        tv.setTextIsSelectable(true); //user can copy text
+                    }
+                });
+                linearLayout.addView(btnPayRoll, layoutParams);
+            }
          }
          return v;
     }

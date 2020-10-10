@@ -1,5 +1,4 @@
 package com.example.payrollproject;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ import java.util.Objects;
 
 public class SettingsFragment extends Fragment {
 
-    private String payPerDate;
+    private String firstDay, lastDay;
 
     OnSettingsChangedListener onSettingsChangedListener;
 
@@ -46,9 +45,10 @@ public class SettingsFragment extends Fragment {
 
         //retrieve previous user values
         SharedPreferences pref = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti),Context.MODE_PRIVATE);
-        etHourlyRate.setText(pref.getString(getResources().getString(R.string.hourlyRateKey), "0"));
-        etDaysPerCycle.setText((pref.getString(getResources().getString(R.string.daysPerCycleKey),"0")));
-        payPerDate = pref.getString(getResources().getString(R.string.firstPayPerKey),"2020/01/01");
+        etHourlyRate.setText(pref.getString(getResources().getString(R.string.hourlyRateKey), ""));
+        etDaysPerCycle.setText((pref.getString(getResources().getString(R.string.daysPerCycleKey),"")));
+        firstDay = pref.getString(getResources().getString(R.string.firstPayPerKey),"2020/01/01");
+        lastDay=pref.getString(getResources().getString(R.string.lastPayPerKey), "2020/12/28");
 
         //places calendar in foreground, once date selected by user calendar no longer visible
         Button btnFirstPay = v.findViewById(R.id.btnFirstPay);
@@ -63,7 +63,29 @@ public class SettingsFragment extends Fragment {
                     public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
                         //month+1 so Jan = 1
                         String dateKey = year + "/" + (month+1) + "/" + day;
-                        payPerDate = dateKey;
+                        firstDay = dateKey;
+                        customToast(dateKey + " added");
+                        flDatePick.setVisibility(View.GONE);
+                        btnSetAll.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        });
+
+        //places calendar in foreground, once date selected by user calendar no longer visible
+        Button btnLastPay = v.findViewById(R.id.btnLastPay);
+        btnLastPay.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                flDatePick.setVisibility(View.VISIBLE);
+                btnSetAll.setVisibility(View.GONE);
+
+                calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                    @Override
+                    public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
+                        //month+1 so Jan = 1
+                        String dateKey = year + "/" + (month+1) + "/" + day;
+                        lastDay = dateKey;
                         customToast(dateKey + " added");
                         flDatePick.setVisibility(View.GONE);
                         btnSetAll.setVisibility(View.VISIBLE);
@@ -76,11 +98,12 @@ public class SettingsFragment extends Fragment {
         btnSetAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo place if != null
+
                 SharedPreferences.Editor edSet = Objects.requireNonNull(getContext()).getSharedPreferences(getResources().getString(R.string.prefSeti), Context.MODE_PRIVATE).edit();
                 edSet.putString(getResources().getString(R.string.hourlyRateKey), etHourlyRate.getText().toString());
                 edSet.putString(getResources().getString(R.string.daysPerCycleKey),etDaysPerCycle.getText().toString());
-                edSet.putString(getResources().getString(R.string.firstPayPerKey),payPerDate);
+                edSet.putString(getResources().getString(R.string.firstPayPerKey),firstDay);
+                edSet.putString(getResources().getString(R.string.lastPayPerKey),lastDay);
                 edSet.apply();
 
                 try {

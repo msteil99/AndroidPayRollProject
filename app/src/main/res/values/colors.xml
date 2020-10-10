@@ -11,4 +11,5 @@
     <color name ="colorGradStart">#C51E5171</color>
     <color name="colorGradend">#0C56AC</color>
     <color name="colorTextLb">#E4F1F8</color>
+    <color name = "colorBtnOutline">#77DAED</color>
 </resources>

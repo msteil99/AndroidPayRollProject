@@ -1,12 +1,9 @@
 package com.example.payrollproject;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,18 +14,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.text.DecimalFormat;
 import java.util.Objects;
 
-
-//todo if edit text equals null application crashes
-//todo save all hours specific to the date
-//todo saving hours worked as of now will save to 24 hour format
 public class CurrentDateFragment extends Fragment {
 
     private String curDate;
     private OnHoursChangedListener mHoursChanged;
     private int frmHour, frmMin, toHour, toMin;
-    private String printFrm, printTo;
+    private String printFrm, printTo; //not used as of now, will add in future
 
     public interface OnHoursChangedListener {
         void onHoursChanged(String dateKey);
@@ -98,7 +92,7 @@ public class CurrentDateFragment extends Fragment {
                  if(etToMin.length() != 0)
                  toMin = Integer.parseInt(etToMin.getText().toString());
 
-                 //tracks the hour worke
+                 //tracks the hour worked
                  printFrm = frmHour + ":" +  frmMin + spFrmTime.getSelectedItem().toString();
                  printTo = toHour + ":" + toMin + spToTime.getSelectedItem().toString();
 
@@ -124,9 +118,11 @@ public class CurrentDateFragment extends Fragment {
                     if (toHour == 12)
                         toHour = 0;
                 }
+
+                DecimalFormat df = new DecimalFormat(".##");
                 //calculate difference in hours
                 TimeDif dif = new TimeDif(frmHour, frmMin, toHour, toMin);
-                String num = String.valueOf(dif.getHourDif());
+                String num = df.format(dif.getHourDif());
                 //print hours
                 String wageRate = spWageRate.getSelectedItem().toString();
                 if(wageRate.contains("reg")) {
@@ -198,8 +194,6 @@ public class CurrentDateFragment extends Fragment {
         toast.setView(layout);
         toast.show();
     }
-
-
 }
 
 

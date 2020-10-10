@@ -17,6 +17,7 @@
     <string name="dateSetKey">dateSetKey</string>
     <string name="datesWorkedKey">datesWorkedKey</string>
     <string name="firstPayPerKey">firstPayPerKey</string>
+    <string name="lastPayPerKey">lastPayPerKey</string>
     <string name ="payDatesKey">payDatesKey</string>
 
     <string name="prefSeti">prefSeti</string>
